@@ -58,7 +58,7 @@ public class ClientesController {
     }
 
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateCliente (@RequestBody ClienteEntity cliente,@PathVariable (value = "id")int id){
         Optional<ClienteEntity> clienteOpt = clienteService.updateCliente(cliente,id);
         if (clienteOpt.isPresent()){
