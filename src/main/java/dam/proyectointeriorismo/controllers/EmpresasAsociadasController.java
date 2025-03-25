@@ -2,6 +2,7 @@ package dam.proyectointeriorismo.controllers;
 
 import dam.proyectointeriorismo.models.entities.EmpresaAsociadaEntity;
 import dam.proyectointeriorismo.services.EmpresaAsocidadaService;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,5 +52,14 @@ public class EmpresasAsociadasController {
            return ResponseEntity.ok(empresaOpt.get());
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EmpresaAsociadaEntity> updateEmpresa(@PathVariable(value = "id")int id, @RequestBody EmpresaAsociadaEntity empresaAsociada){
+        Optional<EmpresaAsociadaEntity> empresaUpdate = empresaAsocidadaService.updateCliente(empresaAsociada,id);
+        if (empresaUpdate.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(empresaUpdate.get());
     }
 }

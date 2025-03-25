@@ -36,4 +36,13 @@ public class EmpresaAsocidadaService {
         return Optional.empty();
 
     }
+
+    public Optional<EmpresaAsociadaEntity> updateCliente(EmpresaAsociadaEntity empresaAsociada,int id){
+        Optional<EmpresaAsociadaEntity> empresaOpt = empresaAsociadaEntityDAO.findById(id);
+        if (empresaOpt.isPresent()){
+            empresaAsociada.setId(id);
+            return Optional.of(empresaAsociadaEntityDAO.save(empresaAsociada));
+        }
+        return Optional.empty();
+    }
 }

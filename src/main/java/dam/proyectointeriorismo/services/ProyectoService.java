@@ -40,8 +40,7 @@ public class ProyectoService {
     public Optional<ProyectoEntity> updateProyecto(ProyectoEntity proyecto,int id){
         if (proyectoEntityDAO.findById(id).isPresent()){
             proyecto.setId(id);
-            proyectoEntityDAO.save(proyecto);
-            return Optional.of(proyecto);
+            return Optional.of( proyectoEntityDAO.save(proyecto));
         }
         return Optional.empty();
     }

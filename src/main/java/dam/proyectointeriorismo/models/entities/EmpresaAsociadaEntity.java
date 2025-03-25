@@ -25,6 +25,17 @@ public class EmpresaAsociadaEntity  {
     @Column(name = "telefono2", length = 20)
     private String telefono2;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "cif", length = 30)
     private String cif;
 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Visualizar Empresas Asociadas</title>
+  <link rel="stylesheet" th:href="@{/styles2.css}" />
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Lista de Empresas </h1>
+  </header>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>CIF</th>
+      <th>Razón Social</th>
+      <th>Dirección</th>
+      <th>Teléfono1</th>
+      <th>Teléfono2</th>
+      <th>Email</th>
+      <th>Tipo</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="empresaAsociada : ${empresasAsociadas}">
+      <td th:text="${empresaAsociada.id}"></td>
+      <td th:text="${empresaAsociada.nombre}"></td>
+      <td th:text="${empresaAsociada.cif}"></td>
+      <td th:text="${empresaAsociada.razonSocial}"></td>
+      <td th:text="${empresaAsociada.direccion}"></td>
+      <td th:text="${empresaAsociada.telefono1}"></td>
+      <td th:text="${empresaAsociada.telefono2}"></td>
+      <td th:text="${empresaAsociada.email}"></td>
+      <td th:text="${empresaAsociada.tipo}"></td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="button-container">
+    <a href="/api-rest" class="button">Volver a la página de inicio</a>
+  </div>
+</div>
+</body>
+</html>

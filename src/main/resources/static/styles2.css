@@ -1,0 +1,107 @@
+/* Estilos generales */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F5F0E1; /* Beige claro */
+    color: #3D3D3D; /* Gris oscuro en lugar de negro puro */
+    text-align: center;
+}
+
+/* Encabezado */
+header {
+    background-color: #E8DCC3; /* Beige más cálido */
+    color: #3D3D3D;
+    padding: 1em 0;
+    text-align: center;
+}
+
+/* Barra de navegación */
+nav {
+    background-color: #D9C7A6; /* Beige medio */
+    padding: 1em 0;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.nav-menu-button,
+.button {
+    display: inline-block;
+    padding: 1em 1.5em;
+    background-color: #A68A64; /* Beige oscuro */
+    color: #FFF;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.nav-menu-button:hover,
+.button:hover {
+    background-color: #8C735A; /* Un beige más oscuro al pasar el cursor */
+    transform: scale(1.05);
+}
+
+/* Contenido principal */
+main {
+    padding: 2em;
+    background-color: #F5F0E1;
+}
+
+main p {
+    font-size: 1.1em;
+    color: #3D3D3D;
+}
+
+/* Botones principales */
+main .button {
+    margin: 10px;
+}
+
+/* Pie de página */
+footer {
+    background-color: #E8DCC3;
+    color: #3D3D3D;
+    padding: 1em 0;
+    margin-top: 2em;
+}
+
+/* Estilos para las tablas */
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #FFF;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+table thead {
+    background-color: #D9C7A6;
+    color: #3D3D3D;
+}
+
+table th, table td {
+    padding: 12px;
+    border: 1px solid #DDD;
+    text-align: left;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #F5F0E1;
+}
+
+table tbody tr:hover {
+    background-color: #E8DCC3;
+}
+.logo {
+    width: 150px; /* Ajusta según el tamaño del logo */
+    height: auto;
+    display: block;
+    margin: 0 auto 10px; /* Centra el logo y agrega margen inferior */
+}

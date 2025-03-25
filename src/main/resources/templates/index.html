@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Gestión de Proyectos</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles2.css">
 </head>
 <body>
 <header>
-    <h1>Sistema de Gestión de Proyectos</h1>
+    <img th:src="@{/img/logo.png}" alt="Logo de la empresa" class="logo">
+    <h1>New Home Studio</h1>
 </header>
 
 <nav>
     <div class="button-container">
         <a href="/api-rest/verClientes" class="button">Clientes</a>
-        <a href="/proyectos" class="button">Proyectos</a>
-        <a href="/empresas-asociadas" class="button">Empresas Asociadas</a>
+        <a href="/api-rest/verProyectos" class="button">Proyectos</a>
+        <a href="/api-rest/verEmpresasAsociadas" class="button">Empresas Asociadas</a>
         <a href="/facturas" class="button" >Facturas</a>
 
     </div>
@@ -28,14 +29,14 @@
     <h2>Bienvenido al Sistema</h2>
     <p>Utilice los siguientes botones para acceder a las diferentes secciones del sistema.</p>
 
-    <a href="/clientes" class="button">Clientes</a>
+    <!--<a href="/clientes" class="button">Clientes</a>
     <a href="/proyectos" class="button">Proyectos</a>
     <a href="/empresas-asociadas" class="button">Empresas Asociadas</a>
-    <a href="/facturas" class="button">Facturas</a>
+    <a href="/facturas" class="button">Facturas</a> !-->
 </main>
 
 <footer>
-    <p>&copy; 2025 Proyecto de Gestión de Proyectos</p>
+    <p>&copy; 2025 Proyecto de Gestión de Empresa</p>
 </footer>
 </body>
 </html>
