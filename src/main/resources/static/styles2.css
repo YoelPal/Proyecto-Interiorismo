@@ -105,3 +105,80 @@ table tbody tr:hover {
     display: block;
     margin: 0 auto 10px; /* Centra el logo y agrega margen inferior */
 }
+
+.lista-clientes {
+    width: 30%;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    margin: 0 auto;
+}
+
+
+/* Estilos para los grupos del formulario */
+.form-group {
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: left;
+    max-width: 400px;
+
+
+}
+
+/* Etiquetas de los campos */
+.form-group label {
+    font-weight: bold;
+    color: #3D3D3D;
+    display: block;
+    margin-bottom: 8px;
+
+
+}
+
+/* Estilos para los campos de entrada */
+.form-group input,
+.form-group textarea {
+    box-sizing: border-box;
+    width: 30%;
+    padding: 10px;
+    border: 1px solid #D9C7A6;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #F5F0E1;
+    color: #3D3D3D;
+    transition: border-color 0.3s ease;
+    resize: none;
+}
+
+/* Efecto cuando un campo está enfocado */
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #A68A64;
+    outline: none;
+    background-color: #FFF;
+}
+
+/* Estilos para el botón de envío */
+.form_button {
+    width: 100%;
+    padding: 12px;
+    background-color: #A68A64;
+    color: white;
+    font-size: 18px;
+    border: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.form_button:hover {
+    background-color: #8C735A;
+    transform: scale(1.05);
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente */
+    align-items: center; /* Centra horizontalmente */
+    /*height: 100vh; /* Ocupa toda la altura de la ventana */
+}

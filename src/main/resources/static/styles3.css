@@ -1,0 +1,124 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F5F0E1; /* Beige claro */
+    color: #3D3D3D; /* Gris oscuro en lugar de negro puro */
+    text-align: center;
+}
+
+/* Estilos para el contenedor del formulario */
+.container {
+    max-width: 500px; /* Limita el ancho del formulario */
+    margin: 50px auto; /* Centra el formulario */
+    background-color: #FFF; /* Fondo blanco para destacar */
+    padding: 20px;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+/* Estilo para los títulos */
+h1 {
+    font-size: 24px;
+    color: #3D3D3D;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Estilos para los grupos del formulario */
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* Etiquetas de los campos */
+.form-group label {
+    font-weight: bold;
+    color: #3D3D3D;
+    display: block;
+    margin-bottom: 5px;
+
+}
+
+/* Estilos para los campos de entrada */
+.form-group input,
+.form-group textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #D9C7A6;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #F5F0E1;
+    color: #3D3D3D;
+    transition: border-color 0.3s ease;
+    resize: none;
+}
+
+/* Efecto cuando un campo está enfocado */
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #A68A64;
+    outline: none;
+    background-color: #FFF;
+}
+
+/* Estilos para el botón de envío */
+.form_button {
+    width: 100%;
+    padding: 12px;
+    background-color: #A68A64;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.form_button:hover {
+    background-color: #8C735A;
+    transform: scale(1.05);
+}
+
+/* Estilos para el botón de regreso */
+.button-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.button-container .button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #D9C7A6;
+    color: #3D3D3D;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.button-container .button:hover {
+    background-color: #A68A64;
+    transform: scale(1.05);
+}
+
+/* Contenedor general para los mensajes */
+.operation_message {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    color: antiquewhite;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Mensaje de éxito */
+.ok_message {
+    background-color: forestgreen;
+}
+
+/* Mensaje de error */
+.error_message {
+    background-color: crimson;
+}

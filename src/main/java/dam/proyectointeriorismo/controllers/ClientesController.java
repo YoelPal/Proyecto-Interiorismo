@@ -39,7 +39,7 @@ public class ClientesController {
     @PostMapping
     public ResponseEntity<?> saveCliente(@RequestBody ClienteEntity clienteEntity){
         try{
-            ClienteEntity nuevoCliente = clienteService.saveCliente(clienteEntity);
+            Optional<ClienteEntity> nuevoCliente = clienteService.saveCliente(clienteEntity);
             return ResponseEntity.ok(nuevoCliente);
         }catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -58,7 +58,7 @@ public class ClientesController {
     }
 
 
-    @PutMapping("/{id}")
+   /* @PutMapping("/{id}")
     public ResponseEntity<?> updateCliente (@RequestBody ClienteEntity cliente,@PathVariable (value = "id")int id){
         Optional<ClienteEntity> clienteOpt = clienteService.updateCliente(cliente,id);
         if (clienteOpt.isPresent()){
@@ -67,5 +67,5 @@ public class ClientesController {
             return ResponseEntity.notFound().build();
         }
 
-    }
+    }*/
 }

@@ -1,0 +1,146 @@
+/* Estilos generales */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F5F0E1;
+    color: #3D3D3D;
+    text-align: center;
+}
+/* Estilos del encabezado */
+header {
+    background-color: #E8DCC3; /* Beige más cálido */
+    color: #3D3D3D;
+    padding: 1em 0;
+    text-align: center;
+}
+
+/* Contenedor principal */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+/* Formulario centrado */
+.formulario {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 600px; /* Limita el ancho del formulario */
+    margin-top: 20px;
+}
+
+/* Estilos para los grupos del formulario */
+.form-group {
+    margin-bottom: 20px;
+    width: 20%;
+    text-align: left;
+    max-width: 100%;
+}
+
+/* Etiquetas de los campos */
+.form-group label {
+    font-weight: bold;
+    color: #3D3D3D;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Estilos para los campos de entrada */
+.form-group input,
+.form-group textarea {
+    box-sizing: border-box;
+    width: 100%; /* El campo de entrada ocupará el 100% del contenedor */
+    padding: 10px;
+    border: 1px solid #D9C7A6;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #F5F0E1;
+    color: #3D3D3D;
+    transition: border-color 0.3s ease;
+    resize: none;
+}
+
+/* Efecto cuando un campo está enfocado */
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #A68A64;
+    outline: none;
+    background-color: #FFF;
+}
+
+/* Estilos para el botón de envío */
+.form_button {
+    width: 100%;
+    padding: 12px;
+    background-color: #A68A64;
+    color: white;
+    font-size: 18px;
+    border: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    margin-top: 10px;  /* Separa el botón de la lista */
+    clear: both;
+}
+
+.form_button:hover {
+    background-color: #8C735A;
+    transform: scale(1.05);
+}
+
+/* Lista de clientes */
+.lista-clientes {
+    width: 20%; /* Ajusta el ancho de la lista */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin: 0 auto;
+}
+
+/* Estilos para las tablas */
+table {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #FFF;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+table thead {
+    background-color: #D9C7A6;
+    color: #3D3D3D;
+}
+
+table th, table td {
+    padding: 12px;
+    border: 1px solid #DDD;
+    text-align: left;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #F5F0E1;
+}
+
+table tbody tr:hover {
+    background-color: #E8DCC3;
+}
+
+.button {
+    display: inline-block;
+    padding: 1em 1.5em;
+    background-color: #A68A64; /* Beige oscuro */
+    margin-top: 10px;
+    color: #FFF;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}

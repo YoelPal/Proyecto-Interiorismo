@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClienteService {
+public class ClienteService implements IClienteService {
     private final IClienteEntityDAO clienteEntityDAO;
     private final IProyectoEntityDAO proyectoEntityDAO;
 
@@ -19,6 +19,7 @@ public class ClienteService {
         this.proyectoEntityDAO = proyectoEntityDAO;
     }
 
+    @Override
     public List<ClienteEntity> buscarClientes(){
         return (List<ClienteEntity>) clienteEntityDAO.findAll();
     }
@@ -27,11 +28,12 @@ public class ClienteService {
         return clienteEntityDAO.findById(id);
     }
 
-    public ClienteEntity saveCliente (ClienteEntity clienteEntity){
+    @Override
+    public Optional<ClienteEntity> saveCliente (ClienteEntity clienteEntity){
         if (clienteEntity.getProyecto()!=null && !proyectoEntityDAO.existsById(clienteEntity.getProyecto().getId())){
             throw new IllegalArgumentException("El proyecto introducido no se puede encontrar");
         }
-        return clienteEntityDAO.save(clienteEntity);
+        return Optional.of(clienteEntityDAO.save(clienteEntity)) ;
     }
 
     public boolean deleteCliente(int id){
@@ -42,10 +44,11 @@ public class ClienteService {
         return false;
     }
 
-    public Optional<ClienteEntity> updateCliente(ClienteEntity cliente, int id) {
-        Optional<ClienteEntity> clienteOpt = clienteEntityDAO.findById(id);
+
+    @Override
+    public Optional<ClienteEntity> updateCliente(ClienteEntity cliente) {
+        Optional<ClienteEntity> clienteOpt = clienteEntityDAO.findById(cliente.getId());
         if (clienteOpt.isPresent()) {
-            cliente.setId(id);
             clienteEntityDAO.save(cliente);
             return Optional.of(cliente);
         }
