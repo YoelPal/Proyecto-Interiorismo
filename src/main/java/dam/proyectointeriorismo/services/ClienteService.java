@@ -1,7 +1,6 @@
 package dam.proyectointeriorismo.services;
 
 import dam.proyectointeriorismo.models.Enums.Estado;
-import dam.proyectointeriorismo.models.entities.EmpresaAsociadaEntity;
 import dam.proyectointeriorismo.models.repository.IClienteEntityRepository;
 import dam.proyectointeriorismo.models.repository.IProyectoEntityRepository;
 import dam.proyectointeriorismo.models.entities.ClienteEntity;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClienteService implements IClienteService {
+public class ClienteService implements IService {
     private final IClienteEntityRepository clienteEntityRepository;
     private final IProyectoEntityRepository proyectoEntityDAO;
 
