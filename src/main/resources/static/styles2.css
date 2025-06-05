@@ -1,4 +1,13 @@
 /* Estilos generales */
+header {
+    background-color: #E8DCC3;
+    padding: 1em 0;
+    margin-bottom: 1rem;
+}
+header h1 {
+    color: #3D3D3D;
+    margin: 0;
+}
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
@@ -30,14 +39,27 @@ nav {
 
 .nav-menu-button,
 .button {
-    display: inline-block;
-    padding: 1em 1.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em ;
     background-color: #A68A64; /* Beige oscuro */
     color: #FFF;
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
     transition: background-color 0.3s, transform 0.2s;
+}
+.buttonNav {
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    background-color: #A68A64;
+    color: #FFF;
+    text-decoration: none;
 }
 
 .nav-menu-button:hover,
@@ -100,7 +122,7 @@ table tbody tr:hover {
     background-color: #E8DCC3;
 }
 .logo {
-    width: 150px; /* Ajusta según el tamaño del logo */
+    width: 150px; /
     height: auto;
     display: block;
     margin: 0 auto 10px; /* Centra el logo y agrega margen inferior */
@@ -169,6 +191,17 @@ table tbody tr:hover {
     cursor: pointer;
     transition: background 0.3s, transform 0.2s;
 }
+.filtro-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #E8DCC3;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
 .form_button:hover {
     background-color: #8C735A;
@@ -181,4 +214,138 @@ table tbody tr:hover {
     justify-content: center; /* Centra verticalmente */
     align-items: center; /* Centra horizontalmente */
     /*height: 100vh; /* Ocupa toda la altura de la ventana */
+}
+/* Formulario de filtros inline */
+.filtro-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #E8DCC3;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.form-group {
+    display: flex;
+    text-align: center;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #3D3D3D;
+}
+.form-group input {
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #D9C7A6;
+    border-radius: 5px;
+    background-color: #F5F0E1;
+    transition: border-color 0.3s ease;
+}
+.form-group input:focus {
+    border-color: #A68A64;
+    background-color: #FFF;
+    outline: none;
+}
+
+.delete-btn {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    margin: 2px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    color: darkred;
+}
+
+/* Estilo para el formulario de filtro */
+.filtro-container {
+    /*display: flex;
+    /*flex-direction: column;*/
+   /* justify-content: center;
+    align-items: flex-end;
+    align-self: center;
+    gap: 1.5rem;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #E8DCC3; /* Fondo beige cálido */
+   /* border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 80%;*/
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #E8DCC3;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Estilo para el label del filtro */
+.filtro-container label {
+    font-weight: bold;
+    color: #3D3D3D;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+/* Estilo para el select del filtro */
+.filtro-container select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #D9C7A6;
+    border-radius: 5px;
+    background-color: #F5F0E1;
+    color: #3D3D3D;
+    transition: border-color 0.3s ease;
+}
+
+/* Efecto al hacer hover o focus en el select */
+.filtro-container select:focus,
+.filtro-container select:hover {
+    border-color: #A68A64;
+    outline: none;
+    background-color: #FFF;
+}
+
+/* Estilo para el botón de filtrar */
+.filtro-container button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #A68A64;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+/* Efecto hover en el botón */
+.filtro-container button:hover {
+    background-color: #8C735A;
+    transform: scale(1.05);
+}
+
+
+.icon-nav {
+    vertical-align: middle;
+    horiz-align: center;
+    width: 100px;
+    height: 100px;
+
+
+
 }

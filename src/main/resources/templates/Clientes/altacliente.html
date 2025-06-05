@@ -7,6 +7,8 @@
     <link rel="stylesheet" th:href="@{/styles3.css}" />
 </head>
 <body>
+
+<div th:insert="~{fragments/navbar :: mainNav}"></div>
 <div class="container">
     <h1>Crear Nuevo Cliente</h1>
     <form action="#" th:action="@{/altacliente}" th:object="${cliente}" method="post">
@@ -44,7 +46,7 @@
         <p th:text="${mensaje}"></p>
     </div>
     <div class="button-container">
-        <a href="/api-rest" class="button">Volver a la página de inicio</a>
+        <a href="/api-rest/verClientes" class="button">Volver a la página de Clientes</a>
     </div>
 </div>
 </body>

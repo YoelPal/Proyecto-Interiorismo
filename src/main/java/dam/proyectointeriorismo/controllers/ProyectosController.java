@@ -1,16 +1,20 @@
 package dam.proyectointeriorismo.controllers;
 
+import dam.proyectointeriorismo.models.entities.ClienteEntity;
+import dam.proyectointeriorismo.models.entities.EmpresaAsociadaEntity;
 import dam.proyectointeriorismo.models.entities.ProyectoEntity;
 import dam.proyectointeriorismo.services.ProyectoService;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/proyectos")
+@Controller
 public class ProyectosController {
     private final ProyectoService proyectoService;
 
@@ -19,49 +23,73 @@ public class ProyectosController {
 
     }
 
-    @GetMapping
+    @GetMapping("/verproyectos")
     public List<ProyectoEntity> findAllProyectos(){
         return proyectoService.listaProyectos();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProyectoEntity> findProyectoById(@PathVariable(value = "id")int id){
-        Optional<ProyectoEntity> proyectoOpt = proyectoService.findById(id);
-        if (proyectoOpt.isPresent()){
-            return ResponseEntity.ok().body(proyectoOpt.get());
+    @PostMapping("/deleteproyecto")
+    public String deleteProyecto(@RequestParam("id")int id, RedirectAttributes redirectAttributes){
+        Optional<ProyectoEntity> deletedProyecto = proyectoService.deleteProyecto(id);
+        if (deletedProyecto.isPresent()) {
+            redirectAttributes.addFlashAttribute("successMessage", "Proyecto eliminado correctamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error: No se encontró el proyecto con ID " + id + " para eliminar.");
         }
-        return ResponseEntity.notFound().build();
+        return "redirect:/verProyectos";
     }
 
-    @PostMapping
-    public ResponseEntity<?> saveProyecto(@RequestBody ProyectoEntity proyectoEntity){
+
+    @PostMapping("/saveproyecto")
+    public String saveProyecto(@ModelAttribute ProyectoEntity proyecto, Model model){
         try {
-            ProyectoEntity saveProyecto = proyectoService.saveProyecto(proyectoEntity);
-            return ResponseEntity.ok().body(saveProyecto);
-        }catch (IllegalArgumentException e ){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            Optional<ProyectoEntity> newProyecto = proyectoService.saveProyecto(proyecto);
+            if (newProyecto.isPresent()) {
+                model.addAttribute("tipo_operacion", "ok");
+                model.addAttribute("mensaje", "Proyecto creado correctamente.");
+                model.addAttribute("proyecto", newProyecto.get()); // Pasa la empresa actualizada al modelo
+            } else {
+                model.addAttribute("tipo_operacion", "error");
+                model.addAttribute("mensaje", "Error al crear el proyecto .");
+                model.addAttribute("proyecto", proyecto); // Mantiene los datos del formulario si hay un error
+            }
+        }catch (Exception e) {
+            // Captura cualquier otra excepción durante la actualización
+            model.addAttribute("tipo_operacion", "error");
+            model.addAttribute("mensaje", "Ocurrió un error inesperado al actualizar: " + e.getMessage());
+            model.addAttribute("proyecto", proyecto); // Mantiene los datos del formulario si hay un error
         }
+
+        return "Proyectos/altaproyecto";
+
     }
 
-    //No estoy seguro si al borrar mejor devolver el objeto para verlo o simplemente devolver el mensaje de confirmacion
+    @PostMapping("/updateProyecto")
+    public String updateProyecto(@ModelAttribute("proyecto") ProyectoEntity proyecto, Model model) {
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteProyecto(@PathVariable(value = "id")int id){
+        try {
+            // Llama a tu servicio para guardar/actualizar la empresa
+            Optional<ProyectoEntity> optionalProyecto = proyectoService.updateProyecto(proyecto.getId(),proyecto);
 
-        Optional<ProyectoEntity> proyectoBorrado= proyectoService.findById(id);
-
-        if (proyectoService.deleteProyecto(id)){
-            ResponseEntity.ok().body(proyectoBorrado.get());
+            if (optionalProyecto.isPresent()) {
+                model.addAttribute("tipo_operacion", "ok");
+                model.addAttribute("mensaje", "Proyecto actualizada correctamente.");
+                model.addAttribute("proyecto", optionalProyecto.get()); // Pasa la empresa actualizada al modelo
+            } else {
+                model.addAttribute("tipo_operacion", "error");
+                model.addAttribute("mensaje", "Error al actualizar la empresa (ID no encontrado o problema en servicio).");
+                model.addAttribute("proyecto", proyecto); // Mantiene los datos del formulario si hay un error
+            }
+        } catch (Exception e) {
+            // Captura cualquier otra excepción durante la actualización
+            model.addAttribute("tipo_operacion", "error");
+            model.addAttribute("mensaje", "Ocurrió un error inesperado al actualizar: " + e.getMessage());
+            model.addAttribute("proyecto", proyecto); // Mantiene los datos del formulario si hay un error
         }
-        return ResponseEntity.notFound().build();
+
+        return "Proyectos/updateproyecto"; // Vuelve a la misma página, mostrando los mensajes
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ProyectoEntity> updateProyecto(@RequestBody ProyectoEntity proyecto,@PathVariable(value = "id") int id){
-        Optional<ProyectoEntity> proyectoOpt = proyectoService.updateProyecto(proyecto,id);
-        if (proyectoOpt.isPresent()){
-            return ResponseEntity.ok(proyectoOpt.get());
-        }
-        return ResponseEntity.notFound().build();
-    }
+
+
 }

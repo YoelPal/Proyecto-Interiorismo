@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle Cliente</title>
+    <link rel="stylesheet" th:href="@{/styles2.css}">
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: mainNav}"></div>
+<div class="container">
+    <header>
+        <h1>Detalle Cliente</h1>
+    </header>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Edad</th>
+            <th>Domicilio</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Observaciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${cliente.id}"></td>
+            <td th:text="${cliente.dni}"></td>
+            <td th:text="${cliente.nombre}"></td>
+            <td th:text="${cliente.edad}"></td>
+            <td th:text="${cliente.domicilio}"></td>
+            <td th:text="${cliente.telefono}"></td>
+            <td th:text="${cliente.email}"></td>
+            <td th:text="${cliente.observaciones}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:if="${cliente.proyecto!=null}">
+        <h2>Proyecto Asignado</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Presupuesto</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Fecha de Inicio</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            <td th:text="${cliente.proyecto.id}"></td>
+            <td th:text="${cliente.proyecto.presupuesto}"></td>
+            <td th:text="${cliente.proyecto.nombre}"></td>
+                <td th:text="${cliente.proyecto.tipo.getNombreVisible()}"></td>
+            <td th:text="${cliente.proyecto.fechaInicio}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+
+    <div class="button-container">
+        <a th:href="@{/verClientes}" class="button">Volver a la lista de Clientes</a>
+    </div>
+</div>
+
+</body>
+</html>

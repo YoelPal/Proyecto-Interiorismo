@@ -1,9 +1,12 @@
 package dam.proyectointeriorismo.services;
 
-import dam.proyectointeriorismo.models.dao.IClienteEntityDAO;
-import dam.proyectointeriorismo.models.dao.IProyectoEntityDAO;
+import dam.proyectointeriorismo.models.Enums.Estado;
+import dam.proyectointeriorismo.models.entities.EmpresaAsociadaEntity;
+import dam.proyectointeriorismo.models.repository.IClienteEntityRepository;
+import dam.proyectointeriorismo.models.repository.IProyectoEntityRepository;
 import dam.proyectointeriorismo.models.entities.ClienteEntity;
 
+import dam.proyectointeriorismo.models.repository.specifications.ClienteSpecification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,21 +14,21 @@ import java.util.Optional;
 
 @Service
 public class ClienteService implements IClienteService {
-    private final IClienteEntityDAO clienteEntityDAO;
-    private final IProyectoEntityDAO proyectoEntityDAO;
+    private final IClienteEntityRepository clienteEntityRepository;
+    private final IProyectoEntityRepository proyectoEntityDAO;
 
-    public ClienteService(IClienteEntityDAO clienteEntityDAO, IProyectoEntityDAO proyectoEntityDAO) {
-        this.clienteEntityDAO = clienteEntityDAO;
+    public ClienteService(IClienteEntityRepository clienteEntityRepository, IProyectoEntityRepository proyectoEntityDAO) {
+        this.clienteEntityRepository = clienteEntityRepository;
         this.proyectoEntityDAO = proyectoEntityDAO;
     }
 
     @Override
     public List<ClienteEntity> buscarClientes(){
-        return (List<ClienteEntity>) clienteEntityDAO.findAll();
+        return  clienteEntityRepository.findAll();
     }
 
     public Optional<ClienteEntity> findClienteById(int id){
-        return clienteEntityDAO.findById(id);
+        return clienteEntityRepository.findById(id);
     }
 
     @Override
@@ -33,24 +36,46 @@ public class ClienteService implements IClienteService {
         if (clienteEntity.getProyecto()!=null && !proyectoEntityDAO.existsById(clienteEntity.getProyecto().getId())){
             throw new IllegalArgumentException("El proyecto introducido no se puede encontrar");
         }
-        return Optional.of(clienteEntityDAO.save(clienteEntity)) ;
+        return Optional.of(clienteEntityRepository.save(clienteEntity)) ;
     }
 
-    public boolean deleteCliente(int id){
-        if (clienteEntityDAO.existsById(id)){
-            clienteEntityDAO.deleteById(id);
-            return true;
+    public Optional<ClienteEntity> deleteCliente(int id){
+        Optional<ClienteEntity> optionalClienteEntity = clienteEntityRepository.findById(id);
+        if (optionalClienteEntity.isPresent()){
+            clienteEntityRepository.deleteById(id);
+            return optionalClienteEntity;
         }
-        return false;
+        return Optional.empty();
+    }
+
+    public List<ClienteEntity> findByNombreContainingIgnoreCase(String nombre) {
+        return clienteEntityRepository.findByNombreContainingIgnoreCase(nombre);
     }
 
 
     @Override
     public Optional<ClienteEntity> updateCliente(ClienteEntity cliente) {
-        Optional<ClienteEntity> clienteOpt = clienteEntityDAO.findById(cliente.getId());
+        Optional<ClienteEntity> clienteOpt = clienteEntityRepository.findById(cliente.getId());
         if (clienteOpt.isPresent()) {
-            clienteEntityDAO.save(cliente);
+            clienteEntityRepository.save(cliente);
             return Optional.of(cliente);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public List<ClienteEntity> findClienteByEstado(Estado estado) {
+        return clienteEntityRepository.findClientesByEstado(estado);
+    }
+
+    public List<ClienteEntity> buscarConFiltros (String nombre, String dni){
+        return clienteEntityRepository.findAll(ClienteSpecification.filtro(nombre,dni));
+    }
+
+    public Optional<ClienteEntity> findByDni(String dni){
+        Optional<ClienteEntity> optionalCliente = clienteEntityRepository.findByDni(dni);
+        if (optionalCliente.isPresent()){
+            return optionalCliente;
         }
         return Optional.empty();
     }

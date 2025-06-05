@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizar Facturas</title>
+    <link rel="stylesheet" th:href="@{/ClienteStyle.css}" />
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: mainNav}"></div>
+<div class="container">
+    <header>
+        <h1>Lista de Facturas</h1>
+    </header>
+    <div th:if="${successMessage}" class="alert success-message">
+        <p th:text="${successMessage}"></p>
+    </div>
+    <div th:if="${errorMessage}" class="alert error-message">
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <div th:if="${tipo_operacion == 'ok'}" class="alert success-message">
+        <p th:text="${mensaje}"></p>
+    </div>
+    <div th:if="${tipo_operacion == 'error'}" class="alert error-message">
+        <p th:text="${mensaje}"></p>
+    </div>
+    <!-- Filtros dinámicos por nombre y DNI -->
+    <div class="filtro-container">
+        <div class="filtro-boton">
+            <a class="button" th:href="@{/altafactura}" >Crear nueva Factura</a>
+        </div>
+        <div class="form-group">
+            <label for="filtroNombre">Cliente:</label>
+            <input type="text"
+                   id="filtroNombre"
+                   placeholder="Nombre del cliente"
+                   th:value="${clienteSeleccionado}" />
+        </div>
+        <div class="form-group">
+            <label for="filtroEmpresa">Empresa:</label>
+            <input type="text"
+                   id="filtroEmpresa"
+                   placeholder="Nombre de la Empresa"
+                   th:value="${empresaSeleccionada}" />
+        </div>
+        <div class="form-group">
+            <label for="filtroProyecto">Proyecto:</label>
+            <input type="text"
+                   id="filtroProyecto"
+                   placeholder="Nombre del Proyecto"
+                   th:value="${proyectoSeleccionado}" />
+        </div>
+        <div class="form-group">
+            <label for="filtroEstado">Estado:</label>
+            <select id="filtroEstado" >
+                <option value="">-- Todos los estados --</option>
+                <option th:each="estado : ${estadosFactura}"
+                        th:value="${estado.name()}"
+                        th:text="${estado.nombreVisible}"
+                        th:selected="${estado.name() == estadoSeleccionado ? true : false}">
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Empresa Asociada</th>
+            <th>Proyecto</th>
+            <th>Total</th>
+            <th>Fecha Emisión</th>
+            <th>Fecha Vencimiento</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody id="tablaFacturas">
+        <tr th:each="factura : ${facturas}"
+            class="fila-factura"
+            style="cursor: pointer"
+            th:onclick="|window.location.href='@{/detalleFactura(id=${factura.id})}'|"
+            th:data-cliente-nombre="${factura.cliente != null ? factura.cliente.nombre : 'N/A'}"
+            th:data-estado-enum-name="${factura.estado != null ? factura.estado.name() : 'N/A'}"
+            th:data-estado-nombre-visible="${factura.estado != null ? factura.estado.nombreVisible : 'N/A'}"
+            th:data-empresa-nombre="${factura.empresaAsociada != null ? factura.empresaAsociada.nombre : 'N/A'}"
+            th:data-proyecto-nombre ="${factura.proyecto != null ?factura.proyecto.nombre : 'N/A'}"
+        >
+
+            <td th:text="${factura.id}"></td>
+            <td class="col-nombre" th:text="${factura.cliente != null ? factura.cliente.nombre : 'N/A'}"></td>
+            <td class="col-empresa" th:text="${factura.empresaAsociada != null ? factura.empresaAsociada.nombre : 'N/A'}"></td>
+            <td class="col-proyecto" th:text="${factura.proyecto != null ? factura.proyecto.nombre : 'N/A'}"></td>
+            <td th:text="${#numbers.formatCurrency(factura.total)}"></td>
+            <td th:text="${factura.fechaEmision}"></td>
+            <td th:text="${factura.fechaVencimiento}"></td>
+            <td class="col-estado" th:text="${factura.estado != null ? factura.estado.nombreVisible : 'N/A'}"></td>
+            <td>
+                <div style="display: flex; gap: 0.5rem;">
+                    <a th:href="@{/actualizarFactura(id=${factura.id})}" class="delete-btn" title="Editar">✏️</a>
+                    <form th:action="@{/deletefactura}" method="post" style="display:inline;">
+                        <input type="hidden" name="id" th:value="${factura.id}"/>
+                        <button type="submit" title="Borrar" class="delete-btn" onclick="return confirm('¿Estás seguro de eliminar esta factura?')">❌</button>
+                    </form>
+                </div>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="button-container">
+        <a th:href="@{/static}" class="button">Volver a la página de inicio</a>
+    </div>
+</div>
+
+<script>
+    const inputNombre = document.getElementById('filtroNombre');
+    const inputEstado = document.getElementById('filtroEstado');
+    const inputEmpresa = document.getElementById('filtroEmpresa')
+    const inputProyecto = document.getElementById('filtroProyecto')
+    const filas = document.querySelectorAll('#tablaFacturas .fila-factura');
+
+    function filtrar() {
+        const valorNombre = inputNombre.value.trim().toLowerCase();
+        const valorEstadoEnumName = inputEstado.value.trim();
+        const valorEmpresa = inputEmpresa.value.trim().toLowerCase();
+        const valorProyecto = inputProyecto.value.trim().toLowerCase();
+
+        filas.forEach(fila => {
+            const nombreClienteFila = fila.dataset.clienteNombre.toLowerCase();
+            const estadoEnumNameFila = fila.dataset.estadoEnumName; // El nombre del ENUM de la fila
+            const empresaFila = fila.dataset.empresaNombre.toLowerCase();
+            const proyectoFila = fila.dataset.proyectoNombre.toLowerCase();
+
+
+            let coincideNombre;
+
+            if (valorNombre === '') {
+                coincideNombre = nombreClienteFila !== '';
+            } else {
+
+                coincideNombre = nombreClienteFila.includes(valorNombre);
+            }
+            let coincideEmpresa;
+
+            if (valorEmpresa === ''){
+                coincideEmpresa = empresaFila !== '';
+
+            }else{
+                coincideEmpresa = empresaFila.includes(valorEmpresa)
+            }
+
+
+            let coincideProyecto = proyectoFila.includes(valorProyecto);
+            let coincideEstado = false;
+            if (valorEstadoEnumName === '') { // Si el filtro es "Todos los estados"
+                coincideEstado = true;
+            } else {
+                // Comparamos el nombre del ENUM de la fila con el nombre del ENUM seleccionado en el filtro
+                coincideEstado = estadoEnumNameFila === valorEstadoEnumName;
+            }
+            fila.style.display = (coincideNombre && coincideEstado && coincideEmpresa && coincideProyecto) ? '' : 'none';
+        });
+    }
+
+    inputNombre.addEventListener('input', filtrar);
+    inputEstado.addEventListener('input', filtrar);
+    inputEmpresa.addEventListener('input',filtrar);
+    inputProyecto.addEventListener('input',filtrar);
+</script>
+</body>
+</html>
+

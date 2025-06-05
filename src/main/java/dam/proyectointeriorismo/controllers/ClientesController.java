@@ -1,10 +1,11 @@
 package dam.proyectointeriorismo.controllers;
 
-import dam.proyectointeriorismo.models.dao.IClienteEntityDAO;
-import dam.proyectointeriorismo.models.dao.IProyectoEntityDAO;
+import dam.proyectointeriorismo.models.repository.IClienteEntityRepository;
+import dam.proyectointeriorismo.models.repository.IProyectoEntityRepository;
 import dam.proyectointeriorismo.models.entities.ClienteEntity;
 import dam.proyectointeriorismo.services.ClienteService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public class ClientesController {
     private final ClienteService clienteService;
 
-    public ClientesController(IClienteEntityDAO clienteEntityDAO, IProyectoEntityDAO proyectoEntityDAO, ClienteService clienteService) {
+    public ClientesController(IClienteEntityRepository clienteEntityDAO, IProyectoEntityRepository proyectoEntityDAO, ClienteService clienteService) {
         this.clienteService = clienteService;
     }
 
@@ -23,6 +24,16 @@ public class ClientesController {
     @GetMapping
     public List<ClienteEntity> findAllClientes(){
         return clienteService.buscarClientes();
+    }
+    @GetMapping("/filtro")
+    public String findAllClientesConFiltro(Model model,String nombre, String dni){
+        model.addAttribute("nombreSelecionado",nombre);
+        model.addAttribute("dniSeleccionado", dni);
+
+        List<ClienteEntity> clientes = clienteService.buscarConFiltros(nombre, dni);
+        model.addAttribute("clientes",clientes);
+
+        return "Clientes/verClientes";
     }
 
 
@@ -38,6 +49,10 @@ public class ClientesController {
 
     @PostMapping
     public ResponseEntity<?> saveCliente(@RequestBody ClienteEntity clienteEntity){
+        Optional<ClienteEntity> optionalCliente = clienteService.findByDni(clienteEntity.getDni());
+        if (optionalCliente.isPresent()){
+            return ResponseEntity.badRequest().body("El Dni ya esta siendo utilizado.");
+        }
         try{
             Optional<ClienteEntity> nuevoCliente = clienteService.saveCliente(clienteEntity);
             return ResponseEntity.ok(nuevoCliente);
@@ -47,15 +62,6 @@ public class ClientesController {
 
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCliente(@PathVariable(value = "id") int id){
-        boolean eliminado = clienteService.deleteCliente(id);
-        if (eliminado){
-            return ResponseEntity.ok().body("Cliente Borrado Correctamente");
-        }else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 
 
    /* @PutMapping("/{id}")

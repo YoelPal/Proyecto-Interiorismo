@@ -1,8 +1,10 @@
 package dam.proyectointeriorismo.models.entities;
 
+import dam.proyectointeriorismo.models.Enums.EstadoFactura;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,29 +20,32 @@ public class FacturaEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "id_cliente")
-    private ClienteEntity idCliente;
+    private ClienteEntity cliente;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "id_empresa_asociada")
-    private EmpresaAsociadaEntity idEmpresaAsociada;
+    private EmpresaAsociadaEntity empresaAsociada;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "id_proyecto")
-    private ProyectoEntity idProyecto;
+    private ProyectoEntity proyecto;
 
     @Column(name = "total", precision = 10, scale = 2)
     private BigDecimal total;
 
     @Column(name = "fecha_emision")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fechaEmision;
 
     @Column(name = "fecha_vencimiento")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fechaVencimiento;
 
     @Column(name = "estado", length = 20)
-    private String estado;
+    @Enumerated(EnumType.STRING)
+    private EstadoFactura estado;
 
     public Integer getId() {
         return id;
@@ -50,28 +55,28 @@ public class FacturaEntity {
         this.id = id;
     }
 
-    public ClienteEntity getIdCliente() {
-        return idCliente;
+    public ClienteEntity getCliente() {
+        return cliente;
     }
 
-    public void setIdCliente(ClienteEntity idCliente) {
-        this.idCliente = idCliente;
+    public void setCliente(ClienteEntity cliente) {
+        this.cliente = cliente;
     }
 
-    public EmpresaAsociadaEntity getIdEmpresaAsociada() {
-        return idEmpresaAsociada;
+    public EmpresaAsociadaEntity getEmpresaAsociada() {
+        return empresaAsociada;
     }
 
-    public void setIdEmpresaAsociada(EmpresaAsociadaEntity idEmpresaAsociada) {
-        this.idEmpresaAsociada = idEmpresaAsociada;
+    public void setEmpresaAsociada(EmpresaAsociadaEntity empresaAsociada) {
+        this.empresaAsociada = empresaAsociada;
     }
 
-    public ProyectoEntity getIdProyecto() {
-        return idProyecto;
+    public ProyectoEntity getProyecto() {
+        return proyecto;
     }
 
-    public void setIdProyecto(ProyectoEntity idProyecto) {
-        this.idProyecto = idProyecto;
+    public void setProyecto(ProyectoEntity proyecto) {
+        this.proyecto = proyecto;
     }
 
     public BigDecimal getTotal() {
@@ -98,11 +103,11 @@ public class FacturaEntity {
         this.fechaVencimiento = fechaVencimiento;
     }
 
-    public String getEstado() {
+    public EstadoFactura getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoFactura estado) {
         this.estado = estado;
     }
 

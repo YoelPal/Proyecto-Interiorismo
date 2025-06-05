@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizar Clientes</title>
+    <link rel="stylesheet" th:href="@{/ClienteStyle.css}" />
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: mainNav}"></div>
+<div class="container">
+    <header>
+        <h1>Lista de Clientes</h1>
+    </header>
+    <div th:if="${successMessage}" class="alert success-message">
+        <p th:text="${successMessage}"></p>
+    </div>
+    <div th:if="${errorMessage}" class="alert error-message">
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <div th:if="${tipo_operacion == 'ok'}" class="alert success-message">
+        <p th:text="${mensaje}"></p>
+    </div>
+    <div th:if="${tipo_operacion == 'error'}" class="alert error-message">
+        <p th:text="${mensaje}"></p>
+    </div>
+    <!-- Filtros dinámicos por nombre y DNI -->
+    <div class="filtro-container">
+        <div class="filtro-boton">
+            <a class="button" th:href="@{/altacliente}" >Crear nuevo Cliente</a>
+        </div>
+
+        <div class="form-group">
+        <label for="filtroNombre">Nombre:</label>
+        <input type="text"
+               id="filtroNombre"
+               placeholder="Nombre del cliente"
+               th:value="${nombreSeleccionado}" />
+            </div>
+        <div class="form-group">
+            <label for="filtroEstado">Estado:</label>
+            <select id="filtroEstado" >
+                <option value="">-- Todos los estados --</option>
+                <option value="NO_PROJECT" th:selected="${estadoSeleccionado == 'NO_PROJECT'}">Sin Proyecto</option>
+                <option th:each="estado : ${estados}"
+                        th:value="${estado.name()}"
+                        th:text="${estado.nombreVisible}"
+                        th:selected="${estado.name() == estadoSeleccionado ? true : false}">
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Edad</th>
+            <th>Domicilio</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Observaciones</th>
+            <th>Estado del Proyecto</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody id="tablaClientes">
+        <tr th:each="cliente : ${clientes}"
+            class="fila-cliente"
+            style="cursor: pointer"
+            th:onclick="|window.location.href='@{/detalleCliente(id=${cliente.id})}'|"
+            th:data-estado-proyecto-enum-name="${cliente.proyecto != null ? cliente.proyecto.estado.name() : 'NO_PROJECT'}">
+
+            <td th:text="${cliente.id}"></td>
+            <td class="col-dni" th:text="${cliente.dni}"></td>
+            <td class="col-nombre" th:text="${cliente.nombre}"></td>
+            <td th:text="${cliente.edad}"></td>
+            <td th:text="${cliente.domicilio}"></td>
+            <td th:text="${cliente.telefono}"></td>
+            <td th:text="${cliente.email}"></td>
+            <td th:text="${cliente.observaciones}"></td>
+            <td class="col-estado" th:text="${cliente.proyecto != null ? cliente.proyecto.estado.nombreVisible : 'Sin Proyecto'}"></td>
+            <td>
+                <div style="display: flex; gap: 0.5rem;">
+                    <a th:href="@{/actualizarCliente(id=${cliente.id})}" title="Editar" class="delete-btn">✏️</a>
+                    <form th:action="@{/deleteCliente}" method="post" >
+                        <input type="hidden" name="id" th:value="${cliente.id}"/>
+                        <button type="submit" class="delete-btn" title="Borrar" onclick="return confirm('¿Estás seguro de eliminar este cliente?')">❌</button>
+                    </form>
+                </div>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="button-container">
+        <a th:href="@{/static}" class="button">Volver a la página de inicio</a>
+    </div>
+</div>
+
+<script>
+    const inputNombre = document.getElementById('filtroNombre');
+
+    const inputEstado = document.getElementById('filtroEstado');
+    const filas = document.querySelectorAll('#tablaClientes .fila-cliente');
+
+    function filtrar() {
+        const valorNombre = inputNombre.value.trim().toLowerCase();
+
+        const valorEstado = inputEstado.value.trim();
+
+        filas.forEach(fila => {
+            const nombre = fila.querySelector('.col-nombre').textContent.toLowerCase();
+
+            const estado = fila.dataset.estadoProyectoEnumName || '';
+
+            const coincideNombre = nombre.includes(valorNombre);
+
+            let coincideEstado = false ;
+            if (valorEstado === ''){
+                coincideEstado = true;
+            }else{
+                coincideEstado = estado === valorEstado;
+            }
+
+
+            fila.style.display = (coincideNombre && coincideEstado) ? '' : 'none';
+        });
+    }
+
+    inputNombre.addEventListener('input', filtrar);
+    inputEstado.addEventListener('change', filtrar);
+</script>
+</body>
+</html>
+

@@ -6,15 +6,25 @@ body {
     color: #3D3D3D; /* Gris oscuro en lugar de negro puro */
     text-align: center;
 }
+/* Encabezado */
+header {
+    background-color: #E8DCC3; /* Beige más cálido */
+    color: #3D3D3D;
+    padding: 1em 0;
+    text-align: center;
+}
 
 /* Estilos para el contenedor del formulario */
 .container {
-    max-width: 500px; /* Limita el ancho del formulario */
-    margin: 50px auto; /* Centra el formulario */
+    max-width: 30%; /* Limita el ancho del formulario */
+    margin: 2rem auto; /* Centra el formulario */
     background-color: #FFF; /* Fondo blanco para destacar */
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px; /* Bordes redondeados */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    flex: 1;
+
+
 }
 
 /* Estilo para los títulos */
@@ -121,4 +131,114 @@ h1 {
 /* Mensaje de error */
 .error_message {
     background-color: crimson;
+}
+
+/* Estilos para las tablas */
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #FFF;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+table thead {
+    background-color: #D9C7A6;
+    color: #3D3D3D;
+}
+
+table th, table td {
+    padding: 12px;
+    border: 1px solid #DDD;
+    text-align: left;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #F5F0E1;
+}
+
+table tbody tr:hover {
+    background-color: #E8DCC3;
+}
+
+.contenerdor-flex{
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin:10px auto;
+
+}
+
+nav {
+    background-color: #D9C7A6; /* Beige medio */
+    padding: 1em 0;
+}
+.buttonNav {
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    background-color: #A68A64;
+    color: #FFF;
+    text-decoration: none;
+}
+.container table{
+    cursor: pointer;
+}
+
+.form-group select {
+    box-sizing: border-box; /* Asegura que padding y borde se incluyan en el ancho */
+    width: 100%; /* Ocupa todo el ancho disponible */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #D9C7A6; /* Borde con color de la paleta */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de fuente */
+    background-color: #F5F0E1; /* Color de fondo claro, similar a los inputs */
+    color: #3D3D3D; /* Color del texto */
+    transition: border-color 0.3s ease, background-color 0.3s ease; /* Transición suave */
+    appearance: none; /* Elimina los estilos nativos del sistema operativo */
+    -webkit-appearance: none; /* Para navegadores basados en Webkit */
+    -moz-appearance: none; /* Para Firefox */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%233D3D3D" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Icono de flecha SVG */
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* Posiciona la flecha a la derecha */
+    background-size: 16px; /* Tamaño de la flecha */
+}
+
+/* Efecto cuando un select está enfocado */
+.form-group select:focus {
+    border-color: #A68A64; /* Color del borde al enfocar */
+    outline: none; /* Elimina el contorno de enfoque predeterminado del navegador */
+    background-color: #FFF; /* Fondo blanco al enfocar */
+}
+
+/* Estilos para las opciones dentro del select (pueden variar según el navegador) */
+.form-group select option {
+    background-color: #FFF; /* Fondo blanco para las opciones */
+    color: #3D3D3D; /* Color del texto de las opciones */
+}
+
+/* Estilo para la opción de placeholder (si es necesario) */
+.form-group select option[value=""] {
+    color: #999; /* Un color más claro para el placeholder */
+}
+
+#clientesTable tbody tr {
+    cursor: pointer; /* Indica que es clickeable */
+    transition: background-color 0.2s ease; /* Para un efecto suave al seleccionar */
+}
+
+#clientesTable tbody tr:hover {
+    background-color: #e0e0e0; /* Un gris claro al pasar el ratón */
+}
+
+#clientesTable tbody tr.selected {
+    background-color: #d1ecf1; /* Un color de fondo distintivo para la fila seleccionada (azul claro) */
+    font-weight: bold; /* Opcional: hace el texto en negrita */
+    border: 1px solid #007bff; /* Opcional: añade un borde */
+    /* Asegúrate de que este color sea visible y contraste con el fondo predeterminado de la fila */
 }

@@ -1,0 +1,210 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F5F0E1;
+    color: #3D3D3D;
+    text-align: center;
+}
+.container {
+    max-width: 90%;
+    margin: 2rem auto;
+    background: #FFF;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+header {
+    background-color: #E8DCC3;
+    padding: 1em 0;
+    margin-bottom: 1rem;
+}
+header h1 {
+    color: #3D3D3D;
+    margin: 0;
+}
+/* Formulario de filtros inline */
+.filtro-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #E8DCC3;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+}
+.filtro-boton{
+    display: flex;
+    width: 100%;
+
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+
+
+}
+.filtro-filtros {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 100%;
+}
+.form-group {
+    display: flex;
+    text-align: center;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #3D3D3D;
+}
+.form-group input {
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #D9C7A6;
+    border-radius: 5px;
+    background-color: #F5F0E1;
+    transition: border-color 0.3s ease;
+}
+.form-group input:focus {
+    border-color: #A68A64;
+    background-color: #FFF;
+    outline: none;
+}
+/* Tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    background-color: #FFF;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+table thead {
+    background-color: #D9C7A6;
+    color: #3D3D3D;
+}
+th, td {
+    padding: 12px;
+    border: 1px solid #DDD;
+    text-align: left;
+}
+tbody tr:nth-child(even) {
+    background-color: #F5F0E1;
+}
+tbody tr:hover {
+    background-color: #E8DCC3;
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+nav {
+    background-color: #D9C7A6; /* Beige medio */
+    padding: 1em 0;
+
+}
+.button, .delete-btn, .buttonNav {
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.button, .buttonNav {
+    background-color: #A68A64;
+    color: #FFF;
+    text-decoration: none;
+}
+.delete-btn {
+    background-color: #c49766;
+    color: #FFF;
+}
+.button:hover, .delete-btn:hover {
+    transform: scale(1.05);
+}
+
+.filtro-container input{
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+
+    transition: background-color 0.3s, transform 0.2s;
+    background-color: #F5F0E1;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.success-message {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+.error-message {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+td .delete-btn, /* Apunta tanto al botón de editar como al de eliminar */
+td .button { /* Si tu botón de edición tiene la clase .button en lugar de .delete-btn */
+    padding: 0; /* Ajusta estos valores para hacerlos más pequeños */
+    font-size: 0.8em; /* Hace que el icono/texto interior sea más pequeño */
+    width: 40px; /* Ejemplo de ancho fijo */
+    height: 40px; /* Ejemplo de alto fijo */
+    display: flex; /* Usa flexbox para centrar el contenido */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+}
+
+.form-group select {
+    box-sizing: border-box; /* Asegura que padding y borde se incluyan en el ancho */
+    width: 220px; /* Ocupa todo el ancho disponible */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #D9C7A6; /* Borde con color de la paleta */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de fuente */
+    background-color: #F5F0E1; /* Color de fondo claro, similar a los inputs */
+    color: #3D3D3D; /* Color del texto */
+    transition: border-color 0.3s ease, background-color 0.3s ease; /* Transición suave */
+    appearance: none; /* Elimina los estilos nativos del sistema operativo */
+    -webkit-appearance: none; /* Para navegadores basados en Webkit */
+    -moz-appearance: none; /* Para Firefox */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%233D3D3D" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Icono de flecha SVG */
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* Posiciona la flecha a la derecha */
+    background-size: 16px; /* Tamaño de la flecha */
+}
+
+/* Efecto cuando un select está enfocado */
+.form-group select:focus {
+    border-color: #A68A64; /* Color del borde al enfocar */
+    outline: none; /* Elimina el contorno de enfoque predeterminado del navegador */
+    background-color: #FFF; /* Fondo blanco al enfocar */
+}
+
+/* Estilos para las opciones dentro del select (pueden variar según el navegador) */
+.form-group select option {
+    background-color: #FFF; /* Fondo blanco para las opciones */
+    color: #3D3D3D; /* Color del texto de las opciones */
+}
+
+/* Estilo para la opción de placeholder (si es necesario) */
+.form-group select option[value=""] {
+    color: #999; /* Un color más claro para el placeholder */
+}

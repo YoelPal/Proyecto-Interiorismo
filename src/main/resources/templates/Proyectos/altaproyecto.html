@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear nuevo Proyeto</title>
+    <link rel="stylesheet" th:href="@{/styles3.css}"/>
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: mainNav}"></div>
+<header>
+    <h1>Nuevo Proyecto</h1>
+</header>
+<div class="contenerdor-flex">
+    <div class="container">
+        <h1>Crear Nuevo Proyecto</h1>
+        <form action="#" th:action="@{/saveproyecto}" th:object="${proyecto}" method="post">
+
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="presupuesto">Presupuesto:</label>
+                <input type="text" id="presupuesto" name="presupuesto" required>
+            </div>
+            <div class="form-group">
+                <label for="metrosCuadrados">Metros Cuadrados:</label>
+                <input type="number" id="metrosCuadrados" name="metrosCuadrados">
+            </div>
+            <div class="form-group">
+                <label for="fechainicio">Fecha Inicio:</label>
+                <input type="date" id="fechainicio" name="fechainicio">
+            </div>
+            <div class="form-group">
+                <label for="tipo">Tipo:</label>
+                <select id="tipo" name="tipo" th:field="*{tipo}" required>
+                    <option value="">-- Seleccione un tipo --</option>
+                    <option th:each="tipo : ${tipoProyecto}"
+                            th:value="${tipo}"
+                            th:text="${tipo.nombreVisible}">Tipo de Proyecto
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="estado">Estado:</label>
+                <select id="estado" name="estado" th:field="*{estado}" required>
+                    <option value="">-- Seleccione un estado --</option>
+                    <option th:each="estadoEnum : ${estadosProyecto}"
+                            th:value="${estadoEnum}"
+                            th:text="${estadoEnum.nombreVisible}">Estado del Proyecto
+                    </option>
+                </select>
+            </div>
+            <div id="selectedClientsHiddenInputs">
+            </div>
+            <div th:if="${mensaje}" th:class="${'operation_message ' + tipo_operacion +'_message'}">
+                <p th:text="${mensaje}"></p>
+            </div>
+            <button class="form_button" type="submit">Crear Proyecto</button>
+        </form>
+
+        <div class="button-container">
+            <a th:href="@{/verProyectos}" class="button">Volver a la página de proyectos</a>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <h2>Seleccionar Cliente</h2>
+        <table id="clientesTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>DNI</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cliente : ${clientes}" th:data-cliente-id="${cliente.id}">
+                <td th:text="${cliente.id}"></td>
+                <td th:text="${cliente.nombre}"></td>
+                <td th:text="${cliente.dni}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const clientesTable = document.getElementById('clientesTable');
+        const selectedClientsHiddenInputs = document.getElementById('selectedClientsHiddenInputs');
+        const selectedClientIds = new Set();
+
+        function updateHiddenInputs() {
+            selectedClientsHiddenInputs.innerHTML = ''; // Limpiar inputs anteriores
+
+            selectedClientIds.forEach(id => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'selectedClientIds'; // Nombre que espera el controlador
+                input.value = id;
+                selectedClientsHiddenInputs.appendChild(input);
+            });
+            console.log("Clientes seleccionados (IDs):", Array.from(selectedClientIds));
+        }
+
+        if (clientesTable && selectedClientsHiddenInputs) {
+            // Añadir un event listener a toda la tabla y usar delegación de eventos
+            clientesTable.addEventListener('click', function (event) {
+                // Encontrar la fila (<tr>) que fue clickeada
+                let clickedRow = event.target.closest('tr');
+
+                // Asegurarse de que se hizo clic en una fila válida y que no sea la fila del encabezado
+                if (clickedRow && clickedRow.parentNode.tagName === 'TBODY') {
+                    // Obtener el ID del proyecto de la fila (usando un atributo de datos)
+                    const clienteId = clickedRow.getAttribute('data-cliente-id'); // Ojo: Th:data-proyecto-id se convierte a data-proyecto-id en el HTML final
+
+                    // Si estás seguro de que el ID es la primera celda (td), puedes hacerlo así:
+                    // const proyectoId = clickedRow.cells[0].textContent;
+
+                    if (clienteId) {
+                        clickedRow.classList.toggle('selected');
+                        if (clickedRow.classList.contains('selected')) {
+                            // Si la fila está seleccionada, añade el ID al Set
+                            selectedClientIds.add(clienteId);
+                        } else {
+                            // Si la fila fue deseleccionada, quita el ID del Set
+                            selectedClientIds.delete(clienteId);
+                        }
+                        // Actualiza los inputs ocultos para que se envíen con el formulario
+                        updateHiddenInputs();
+                    }
+                }
+            });
+        }
+
+    });
+</script>
+</body>
+</html>

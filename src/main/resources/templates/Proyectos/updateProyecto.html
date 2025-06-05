@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Actualizar Proyecto</title>
+    <link rel="stylesheet" th:href="@{/styles3.css}" />
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: mainNav}"></div>
+<header>
+    <h1>Actualizar Proyecto</h1>
+</header>
+<div class="contenerdor-flex">
+
+    <div class="container">
+
+        <form th:action="@{/updateProyecto(id=${proyecto.id})}" th:object="${proyecto}" method="post">
+            <div class="form-group">
+                <input type="hidden" th:field="*{id}"> <!-- Campo oculto para el ID -->
+            </div>
+            <div class="form-group">
+                <label for="presupuesto">Presupuesto:</label>
+                <input type="text" id="presupuesto" th:field="*{presupuesto}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" th:field="*{nombre}" required>
+            </div>
+            <div class="form-group">
+                <label for="metrosCuadrados">Metros Cuadrados:</label>
+                <input type="number" id="metrosCuadrados" th:field="*{metrosCuadrados}">
+            </div>
+
+            <div class="form-group">
+                <label for="fechaInicio">Fecha Inicio:</label>
+                <input type="date" id="fechaInicio" th:field="*{fechaInicio}" >
+            </div>
+            <div class="form-group">
+                <label for="tipo">Tipo:</label>
+                <select id="tipo" name="tipo" th:field="*{tipo}">
+                    <option value="">-- Seleccione un tipo --</option>
+                    <option th:each="tipo : ${tipoProyecto}"
+                            th:value="${tipo}"
+                            th:text="${tipo.nombreVisible}">Tipo del Proyecto
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="estado">Estado:</label>
+                <select id="estado" name="estado" th:field="*{estado}">
+                    <option value="">-- Seleccione un estado --</option>
+                    <option th:each="estadoEnum : ${estadosProyecto}"
+                            th:value="${estadoEnum}"
+                            th:text="${estadoEnum.nombreVisible}">Estado del Proyecto
+                    </option>
+                </select>
+            </div>
+
+
+            <div th:if="${mensaje}" th:class="${'operation_message ' + tipo_operacion +'_message'}">
+                <p th:text="${mensaje}"></p>
+            </div>
+            <div class="button-container">
+                <button class="form_button" type="submit">Actualizar Proyecto</button>
+            </div>
+            <div class="button-container">
+                <a href="/api-rest/verProyectos" class="button">Volver a la página de Proyectos</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

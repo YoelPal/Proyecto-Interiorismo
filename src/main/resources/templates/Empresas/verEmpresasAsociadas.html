@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Visualizar Empresas Asociadas</title>
+  <link rel="stylesheet" th:href="@{/ClienteStyle.css}" />
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: mainNav}"></div>
+<div class="container">
+  <header>
+    <h1>Lista de Empresas </h1>
+  </header>
+  <div th:if="${successMessage}" class="alert success-message">
+    <p th:text="${successMessage}"></p>
+  </div>
+  <div th:if="${errorMessage}" class="alert error-message">
+    <p th:text="${errorMessage}"></p>
+  </div>
+  <div th:if="${tipo_operacion == 'ok'}"  class="alert success-message">
+    <p th:text="${mensaje}"></p>
+  </div>
+  <div th:if="${tipo_operacion == 'error'}" class="alert error-message">
+    <p th:text="${mensaje}"></p>
+  </div>
+  <div class="filtro-container">
+    <div class="filtro-boton">
+      <a class="button" th:href="@{/altaempresa}" >Crear nueva Empresa </a>
+    </div>
+
+    <div class="form-group">
+      <label for="filtroNombre">Nombre:</label>
+      <input type="text"
+             id="filtroNombre"
+             placeholder="Nombre de la empresa"
+             th:value="${nombreSeleccionado}" />
+    </div>
+    <div class="form-group">
+      <label for="filtroTipo">Tipo:</label>
+      <input type="text"
+             id="filtroTipo"
+             placeholder="Tipo de empresa"
+             th:value="${tipoSeleccionado}" />
+    </div>
+  </div>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>CIF</th>
+      <th>Razón Social</th>
+      <th>Dirección</th>
+      <th>Teléfono1</th>
+      <th>Teléfono2</th>
+      <th>Email</th>
+      <th>Tipo</th>
+      <th>Acciones</th>
+
+    </tr>
+    </thead>
+    <tbody id="tablaEmpresas"
+    >
+    <tr th:each="empresaAsociada : ${empresasAsociadas}"
+        class="fila-empresa">
+      <td th:text="${empresaAsociada.id}"></td>
+      <td class="col-nombre" th:text="${empresaAsociada.nombre}"></td>
+      <td th:text="${empresaAsociada.cif}"></td>
+      <td th:text="${empresaAsociada.razonSocial}"></td>
+      <td th:text="${empresaAsociada.direccion}"></td>
+      <td th:text="${empresaAsociada.telefono1}"></td>
+      <td th:text="${empresaAsociada.telefono2}"></td>
+      <td th:text="${empresaAsociada.email}"></td>
+      <td class="col-tipo" th:text="${empresaAsociada.tipo}"></td>
+      <td>
+        <div style="display: flex; gap: 0.5rem;">
+          <a th:href="@{/actualizarEmpresa(id=${empresaAsociada.id})}" title="Editar" class="delete-btn">✏️</a>
+          <form th:action="@{/empresasAsociadas/deleteEmpresa}" method="post" style="display:inline;">
+            <input type="hidden" name="id" th:value="${empresaAsociada.id}"/>
+            <button type="submit" class="delete-btn" title="Borrar" onclick="return confirm('¿Estás seguro de eliminar esta empresa?')">❌</button>
+          </form>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="button-container">
+    <a href="/api-rest" class="button">Volver a la página de inicio</a>
+  </div>
+</div>
+<script>
+  const inputNombre = document.getElementById('filtroNombre');
+  const inputTipo = document.getElementById('filtroTipo');
+  const filas = document.querySelectorAll('#tablaEmpresas .fila-empresa');
+
+  function filtrar() {
+    const valorNombre = inputNombre.value.trim().toLowerCase();
+    const valorTipo = inputTipo.value.trim().toLowerCase();
+
+    filas.forEach(fila => {
+      const nombre = fila.querySelector('.col-nombre').textContent.toLowerCase();
+      const tipo = fila.querySelector('.col-tipo').textContent.toLowerCase();
+
+      const coincideNombre = nombre.includes(valorNombre);
+      const coincideTipo = tipo.includes(valorTipo);
+
+      fila.style.display = (coincideNombre && coincideTipo) ? '' : 'none';
+    });
+  }
+
+  inputNombre.addEventListener('input', filtrar);
+  inputTipo.addEventListener('input', filtrar);
+</script>
+</body>
+</html>

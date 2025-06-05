@@ -57,6 +57,7 @@ tr:hover {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+
 }
 
 .button {
@@ -69,6 +70,21 @@ tr:hover {
     font-weight: bold;
     transition: background-color 0.3s, transform 0.2s;
     margin: 10px;
+}
+
+.buttonNav {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    background-color: #A68A64;
+    color: #FFF;
+    text-decoration: none;
 }
 
 .button:hover {

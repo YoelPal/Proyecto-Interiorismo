@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizar Proyectos</title>
+    <link rel="stylesheet" th:href="@{/ClienteStyle.css}"/>
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: mainNav}"></div>
+<div class="container">
+    <header>
+        <h1>Lista de Proyectos</h1>
+    </header>
+    <div th:if="${successMessage}" class="alert success-message">
+        <p th:text="${successMessage}"></p>
+    </div>
+    <div th:if="${errorMessage}" class="alert error-message">
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <div th:if="${tipo_operacion == 'ok'}" class="alert success-message">
+        <p th:text="${mensaje}"></p>
+    </div>
+    <div th:if="${tipo_operacion == 'error'}" class="alert error-message">
+        <p th:text="${mensaje}"></p>
+    </div>
+    <div class="filtro-container">
+        <div class="filtro-boton">
+            <a class="button" th:href="@{/altaproyecto}">Crear nuevo Proyecto</a>
+        </div>
+        <div class="form-group">
+            <label for="filtroNombre">Nombre:</label>
+            <input type="text"
+                   id="filtroNombre"
+                   placeholder="Nombre del Proyecto"
+                   th:value="${nombreSeleccionado}"/>
+        </div>
+        <div class="form-group">
+            <label for="filtroId">ID</label>
+            <input type="text"
+                   id="filtroId"
+                   placeholder="ID del proyecto"
+                   th:value="${idSeleccionado}"/>
+        </div>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Presupuesto</th>
+            <th>Nombre</th>
+            <th>Metros Cuadrados</th>
+            <th>Fecha de Inicio</th>
+            <th>Tipo</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+
+        </tr>
+        </thead>
+        <tbody id="tablaProyectos">
+        <tr th:each="proyecto : ${proyectos}"
+            class="fila-proyecto"
+            style="cursor: pointer">
+            <td class="col-id" th:text="${proyecto.id}"></td>
+            <td th:text="${#numbers.formatCurrency(proyecto.presupuesto)}"></td>
+            <td class="col-nombre" th:text="${proyecto.nombre}"></td>
+            <td th:text = "${proyecto.metrosCuadrados != null ? proyecto.metrosCuadrados : 'N/A'}"></td>
+            <td th:text="${proyecto.fechaInicio}"></td>
+            <td th:text="${proyecto.tipo?.nombreVisible}"></td>
+            <td th:text="${proyecto.estado?.nombreVisible}"></td>
+            <td>
+                <div style="display: flex; gap: 0.5rem;">
+                    <a th:href="@{/actualizarProyecto(id=${proyecto.id})}" class="delete-btn" title="Editar ">✏️</a>
+                    <form th:action="@{/deleteproyecto}" method="post" style="display:inline;">
+                        <input type="hidden" name="id" th:value="${proyecto.id}"/>
+                        <button type="submit" class="delete-btn" title="Borrar"
+                                onclick="return confirm('¿Estás seguro de eliminar este proyecto?')">❌
+                        </button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="button-container">
+        <a href="/api-rest" class="button">Volver a la página de inicio</a>
+    </div>
+</div>
+<script>
+    const inputNombre = document.getElementById('filtroNombre');
+    const inputId = document.getElementById('filtroId');
+    const filas = document.querySelectorAll('#tablaProyectos .fila-proyecto');
+
+    function filtrar() {
+        const valorNombre = inputNombre.value.trim().toLowerCase();
+        const valorId = inputId.value.trim().toLowerCase();
+
+        filas.forEach(fila => {
+            const nombre = fila.querySelector('.col-nombre').textContent.toLowerCase();
+            const id = fila.querySelector('.col-id').textContent.toLowerCase();
+
+            const coincideNombre = nombre.includes(valorNombre);
+            const coincideId = id.includes(valorId);
+
+            fila.style.display = (coincideNombre && coincideId) ? '' : 'none';
+        });
+    }
+
+    inputNombre.addEventListener('input', filtrar);
+    inputId.addEventListener('input', filtrar);
+</script>
+</body>
+</html>

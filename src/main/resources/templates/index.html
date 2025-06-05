@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles2.css">
 </head>
 <body>
+<div th:insert="~{fragments/navbar :: mainNav}"></div>
 <header>
     <img th:src="@{/img/logo.png}" alt="Logo de la empresa" class="logo">
     <h1>New Home Studio</h1>
@@ -14,11 +15,22 @@
 
 <nav>
     <div class="button-container">
-        <a href="/api-rest/verClientes" class="button">Clientes</a>
-        <a href="/api-rest/verProyectos" class="button">Proyectos</a>
-        <a href="/api-rest/verEmpresasAsociadas" class="button">Empresas Asociadas</a>
-        <a href="/facturas" class="button" >Facturas</a>
-        <a th:href="@{/menuclientes}" class="button">Menú Clientes</a>
+        <a th:href="@{/verClientes}" class="button">
+            <img th:src="@{/img/Clientes.svg}" alt="Clientes" class="icon-nav">
+            <span>Clientes</span>
+        </a>
+        <a th:href="@{/verProyectos}" class="button">
+            <img th:src="@{/img/Proyecto.svg}" alt="Proyectos" class="icon-nav">
+            <span>Proyectos</span>
+        </a>
+        <a th:href="@{/verEmpresasAsociadas}" class="button">
+            <img th:src="@{/img/Empresas.svg}" alt="Empresas" class="icon-nav">
+            <span>Empresas Asociadas</span>
+        </a>
+        <a th:href="@{/verFacturas}" class="button" >
+            <img th:src="@{/img/Facturas.svg}" alt="Clientes" class="icon-nav">
+            <span>Facturas</span>
+            </a>
 
     </div>
 

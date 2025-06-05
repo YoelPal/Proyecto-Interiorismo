@@ -1,0 +1,8 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Primer edificio -->
+    <rect x="10" y="20" width="20" height="30" stroke="#997F5F" stroke-width="4" fill="none"/>
+    <polygon points="10,20 20,10 30,20" stroke="#997F5F" stroke-width="4" fill="none"/>
+    <!-- Segundo edificio -->
+    <rect x="34" y="28" width="20" height="22" stroke="#997F5F" stroke-width="4" fill="none"/>
+    <polygon points="34,28 44,18 54,28" stroke="#997F5F" stroke-width="4" fill="none"/>
+</svg>

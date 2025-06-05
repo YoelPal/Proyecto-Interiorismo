@@ -1,9 +1,12 @@
 package dam.proyectointeriorismo.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import dam.proyectointeriorismo.models.Enums.Estado;
+import dam.proyectointeriorismo.models.Enums.Tipo;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,8 +23,21 @@ public class ProyectoEntity {
     private Integer presupuesto;
 
     @Column(name = "fecha_inicio")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fechaInicio;
 
+
+
+    @Column(name = "metros_cuadrados")
+    private Double metrosCuadrados;
+
+    @Column(name = "tipo")
+    @Enumerated(EnumType.STRING)
+    private Tipo tipo;
+
+    @Column(name ="estado")
+    @Enumerated(EnumType.STRING) // Esto es importante para que JPA lo guarde como String en la BBDD
+    private Estado estado;
 
 
     @Column(name = "nombre")
@@ -34,6 +50,13 @@ public class ProyectoEntity {
     private List<ClienteEntity> clientes;
 
 
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
 
 
     public Integer getId() {
@@ -76,4 +99,19 @@ public class ProyectoEntity {
         this.nombre = nombre;
     }
 
+    public Tipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
+
+    public Double getMetrosCuadrados() {
+        return metrosCuadrados;
+    }
+
+    public void setMetrosCuadrados(Double metrosCuadrados) {
+        this.metrosCuadrados = metrosCuadrados;
+    }
 }

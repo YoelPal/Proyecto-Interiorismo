@@ -1,0 +1,8 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Documento -->
+    <rect x="16" y="10" width="32" height="44" stroke="#997F5F" stroke-width="4" fill="none"/>
+    <!-- Línea divisoria -->
+    <line x1="16" y1="20" x2="48" y2="20" stroke="#997F5F" stroke-width="2"/>
+    <!-- Símbolo de moneda -->
+    <text x="32" y="40" fill="#997F5F" font-size="12" text-anchor="middle" alignment-baseline="middle">$</text>
+</svg>

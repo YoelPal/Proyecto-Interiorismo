@@ -1,6 +1,6 @@
 package dam.proyectointeriorismo.services;
 
-import dam.proyectointeriorismo.models.dao.IEmpresaAsociadaEntityDAO;
+import dam.proyectointeriorismo.models.repository.IEmpresaAsociadaEntityRepository;
 import dam.proyectointeriorismo.models.entities.EmpresaAsociadaEntity;
 import org.springframework.stereotype.Service;
 
@@ -9,39 +9,43 @@ import java.util.Optional;
 
 @Service
 public class EmpresaAsocidadaService {
-    private final IEmpresaAsociadaEntityDAO empresaAsociadaEntityDAO;
+    private final IEmpresaAsociadaEntityRepository empresaAsociadaEntityRepository;
 
-    public EmpresaAsocidadaService(IEmpresaAsociadaEntityDAO empresaAsociadaEntityDAO) {
-        this.empresaAsociadaEntityDAO = empresaAsociadaEntityDAO;
+    public EmpresaAsocidadaService(IEmpresaAsociadaEntityRepository empresaAsociadaEntityDAO) {
+        this.empresaAsociadaEntityRepository = empresaAsociadaEntityDAO;
     }
 
+
+    public List<EmpresaAsociadaEntity> findByNombreContainingIgnoreCase(String nombre) {
+        return empresaAsociadaEntityRepository.findByNombreContainingIgnoreCase(nombre);
+    }
     public List<EmpresaAsociadaEntity> findAllEmpresaAsociada(){
-        return (List<EmpresaAsociadaEntity>) empresaAsociadaEntityDAO.findAll();
+        return (List<EmpresaAsociadaEntity>) empresaAsociadaEntityRepository.findAll();
     }
 
     public Optional<EmpresaAsociadaEntity> findEmpresaById(int id){
-        return empresaAsociadaEntityDAO.findById(id);
+        return empresaAsociadaEntityRepository.findById(id);
     }
 
     public Optional<EmpresaAsociadaEntity> saveEmpresa(EmpresaAsociadaEntity empresaAsociada){
-        return Optional.of(empresaAsociadaEntityDAO.save(empresaAsociada));
+        return Optional.of(empresaAsociadaEntityRepository.save(empresaAsociada));
     }
 
-    public Optional<EmpresaAsociadaEntity> deleteCliente(int id){
-        Optional<EmpresaAsociadaEntity> empresaOpt = empresaAsociadaEntityDAO.findById(id);
-        if (empresaAsociadaEntityDAO.existsById(id)){
-            empresaAsociadaEntityDAO.deleteById(id);
-            return Optional.of(empresaOpt.get());
+    public Optional<EmpresaAsociadaEntity> deleteEmpresa(int id){
+        Optional<EmpresaAsociadaEntity> empresaOpt = empresaAsociadaEntityRepository.findById(id);
+        if (empresaOpt.isPresent()){
+            empresaAsociadaEntityRepository.deleteById(id);
+            return empresaOpt;
         }
         return Optional.empty();
 
     }
 
-    public Optional<EmpresaAsociadaEntity> updateCliente(EmpresaAsociadaEntity empresaAsociada,int id){
-        Optional<EmpresaAsociadaEntity> empresaOpt = empresaAsociadaEntityDAO.findById(id);
+    public Optional<EmpresaAsociadaEntity> updateEmpresa(EmpresaAsociadaEntity empresaAsociada){
+        Optional<EmpresaAsociadaEntity> empresaOpt = empresaAsociadaEntityRepository.findById(empresaAsociada.getId());
         if (empresaOpt.isPresent()){
-            empresaAsociada.setId(id);
-            return Optional.of(empresaAsociadaEntityDAO.save(empresaAsociada));
+            empresaAsociada.setId(empresaAsociada.getId());
+            return Optional.of(empresaAsociadaEntityRepository.save(empresaAsociada));
         }
         return Optional.empty();
     }

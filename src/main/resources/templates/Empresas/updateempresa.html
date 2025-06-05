@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Empresa</title>
+    <link rel="stylesheet" th:href="@{/styles3.css}" />
+</head>
+<body>
+
+<div th:insert="~{fragments/navbar :: mainNav}"></div>
+<div class="container">
+    <h1>Actualizar Empresa</h1>
+    <form action="#" th:action="@{/empresasAsociadas/updateEmpresa}" th:object="${empresa}" method="post">
+
+        <div class="form-group">
+            <input type="hidden" th:field="*{id}"> <!-- Campo oculto para el ID -->
+        </div>
+
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" th:field="*{nombre}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="razonSocial">Razon Social:</label>
+            <input type="text" id="razonSocial" th:field="*{razonSocial}"  required>
+        </div>
+        <div class="form-group">
+            <label for="cif">CIF:</label>
+            <input type="text" id="cif" th:field="*{cif}"  required>
+        </div>
+        <div class="form-group">
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" th:field="*{direccion}" required>
+        </div>
+        <div class="form-group">
+            <label for="telefono">Teléfono:</label>
+            <input type="number" id="telefono" th:field="*{telefono1}" required>
+        </div>
+        <div class="form-group">
+            <label for="telefono2">Teléfono 2:</label>
+            <input type="number" id="telefono2"  th:field="*{telefono2}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" th:field="*{email}" required>
+        </div>
+        <div class="form-group">
+            <label for="tipo">Tipo:</label>
+            <input id="tipo" name="tipo" th:field="*{tipo}"></input>
+        </div>
+        <button class="form_button" type="submit">Actualizar Empresa</button>
+    </form>
+    <div th:if="${mensaje}" th:class="${'operation_message ' + tipo_operacion +'_message'}">
+        <p th:text="${mensaje}"></p>
+    </div>
+    <div class="button-container">
+        <a href="/api-rest/verEmpresasAsociadas" class="button">Volver a la página de Empresas</a>
+    </div>
+</div>
+</body>
+</html>

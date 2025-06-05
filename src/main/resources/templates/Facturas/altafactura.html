@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear nueva Factura</title>
+    <link rel="stylesheet" th:href="@{/styles4.css}"/>
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: mainNav}"></div>
+<div class="container">
+    <h1>Crear Nueva Factura</h1>
+    <div class="two-column-layout">
+        <div class="form-column">
+            <form action="#" th:action="@{/savefactura}" th:object="${factura}" method="post">
+
+                <div class="form-group">
+                    <label for="total">Total:</label>
+                    <input type="number" id="total" th:field="*{total}" required>
+                </div>
+                <div class="form-group">
+                    <label for="empresaAsociada">Empresa Asociada:</label>
+                    <div class="input-with-button">
+                        <input type="text" id="empresaAsociada" class="form-control"
+                               th:value="${factura.empresaAsociada != null ? factura.empresaAsociada.nombre : ''}"
+                               readonly required>
+                        <input type="hidden" id="empresaAsociadaId" th:field="*{empresaAsociada}">
+                        <button type="button" id="openEmpresaModalBtn" class="btn btn-primary">Seleccionar</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="clienteDisplay">Cliente:</label>
+                    <div class="input-with-button">
+                        <input type="text" id="clienteDisplay" class="form-control"
+                               th:value="${factura.cliente != null ? factura.cliente.nombre : ''}"
+                               readonly required>
+                        <input type="hidden" id="clienteId" th:field="*{cliente}">
+                        <button type="button" id="openClienteModalBtn" class="btn btn-primary">Seleccionar</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="proyectoDisplay">Proyecto:</label>
+                    <div class="input-with-button">
+                        <input type="text" id="proyectoDisplay" class="form-control"
+                               th:value="${factura.proyecto != null ? factura.proyecto.nombre : ''}"
+                               readonly required>
+                        <input type="hidden" id="proyectoId" th:field="*{proyecto}">
+                        <button type="button" id="openProyectoModalBtn" class="btn btn-primary">Seleccionar</button>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="fechaemision">Fecha Emisión:</label>
+                    <input type="date" id="fechaemision" th:field="*{fechaEmision}">
+                </div>
+                <div class="form-group">
+                    <label for="fechavencimiento">Fecha Vencimiento:</label>
+                    <input type="date" id="fechavencimiento" th:field="*{fechaVencimiento}">
+                </div>
+                <div class="form-group">
+                    <label for="estado">Estado:</label>
+                    <select id="estado" name="estado" th:field="*{estado}" required>
+                        <option value="">-- Seleccione un estado --</option>
+                        <option th:each="estado : ${estadofactura}"
+                                th:value="${estado}"
+                                th:text="${estado.nombreVisible}">Estado de la Factura
+                        </option>
+                    </select>
+                </div>
+
+                <button class="form_button" type="submit">Crear Factura</button>
+            </form>
+            <div th:if="${mensaje}" th:class="${'operation_message ' + tipo_operacion +'_message'}">
+                <p th:text="${mensaje}"></p>
+            </div>
+
+
+            <div class="button-container">
+                <a href="/api-rest/verFacturas" class="button">Volver a la página de Facturas</a>
+            </div>
+        </div>
+        <div class="modal-panels-column">
+
+            <div id="empresaModal" class="modal-panel">
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <h2>Seleccionar Empresa Asociada</h2>
+                    <input type="text" id="empresaSearchInput" placeholder="Buscar empresas...">
+                    <button id="empresaSearchBtn">Buscar</button>
+                    <table id="empresaResultsTable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>CIF</th>
+                            <th>Acción</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="clienteModal" class="modal-panel">
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <h2>Seleccionar Cliente</h2>
+                    <input type="text" id="clienteSearchInput" placeholder="Buscar clientes...">
+                    <button id="clienteSearchBtn">Buscar</button>
+                    <table id="clienteResultsTable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Proyecto</th>
+                            <th>Acción</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="proyectoModal" class="modal-panel">
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <h2>Seleccionar Proyecto</h2>
+                    <input type="text" id="proyectoSearchInput" placeholder="Buscar proyectos...">
+                    <button id="proyectoSearchBtn">Buscar</button>
+                    <table id="proyectoResultsTable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Acción</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Referencias a elementos HTML (igual que antes) ---
+            const empresaPanel = document.getElementById('empresaModal');
+            const openEmpresaPanelBtn = document.getElementById('openEmpresaModalBtn');
+            const closeEmpresaModalBtn = empresaPanel.querySelector('.close-button');
+            const empresaSearchInput = document.getElementById('empresaSearchInput'); // Mantenemos el input para futuras búsquedas
+            const empresaSearchBtn = document.getElementById('empresaSearchBtn'); // Mantenemos el botón de búsqueda para filtrar
+            const empresaResultsTableBody = empresaPanel.querySelector('#empresaResultsTable tbody');
+            const empresaDisplayInput = document.getElementById('empresaAsociada');
+            const empresaIdInput = document.getElementById('empresaAsociadaId');
+
+            const clientePanel = document.getElementById('clienteModal');
+            const openClientePanelBtn = document.getElementById('openClienteModalBtn');
+            const closeClienteModalBtn = clientePanel.querySelector('.close-button');
+            const clienteSearchInput = document.getElementById('clienteSearchInput');
+            const clienteSearchBtn = document.getElementById('clienteSearchBtn');
+            const clienteResultsTableBody = clientePanel.querySelector('#clienteResultsTable tbody');
+            const clienteDisplayInput = document.getElementById('clienteDisplay');
+            const clienteIdInput = document.getElementById('clienteId');
+
+            const proyectoPanel = document.getElementById('proyectoModal');
+            const openProyectoPanelBtn = document.getElementById('openProyectoModalBtn');
+            const closeProyectoModalBtn = proyectoPanel.querySelector('.close-button');
+            const proyectoSearchInput = document.getElementById('proyectoSearchInput');
+            const proyectoSearchBtn = document.getElementById('proyectoSearchBtn');
+            const proyectoResultsTableBody = proyectoPanel.querySelector('#proyectoResultsTable tbody');
+            const proyectoDisplayInput = document.getElementById('proyectoDisplay');
+            const proyectoIdInput = document.getElementById('proyectoId');
+
+
+            function activatePanel(panelToActivate) {
+                empresaPanel.style.display = 'none';
+                clientePanel.style.display = 'none';
+                proyectoPanel.style.display = 'none';
+
+
+                if (panelToActivate && panelToActivate.style) { // Comprueba si es un elemento válido
+                    panelToActivate.style.display = 'block';
+                }
+
+                // Opcional: enfocar el input de búsqueda al activar
+                if (panelToActivate && panelToActivate.id === 'empresaPanel') empresaSearchInput.focus();
+                if (panelToActivate && panelToActivate.id === 'clientePanel') clienteSearchInput.focus();
+                if (panelToActivate && panelToActivate.id === 'proyectoPanel') proyectoSearchInput.focus();
+            }
+
+            function closeModal(modal) {
+                modal.style.display = 'none';
+            }
+
+            // --- Event Listeners para abrir y cerrar modales (modificado para cargar datos al abrir) ---
+            openEmpresaPanelBtn.addEventListener('click', () => {
+                activatePanel(empresaPanel);
+                // Cargar TODAS las empresas al abrir el modal (searchTerm vacío)
+                fetchAndRenderTable(empresaSearchInput, empresaResultsTableBody, '/api-rest/empresas/buscar', empresaDisplayInput, empresaIdInput);
+            });
+            closeEmpresaModalBtn.addEventListener('click', () => closeModal(empresaPanel));
+
+            openClientePanelBtn.addEventListener('click', () => {
+                activatePanel(clientePanel);
+                // Cargar TODOS los clientes al abrir el modal (searchTerm vacío)
+                fetchAndRenderTable(clienteSearchInput, clienteResultsTableBody, '/api-rest/clientes/buscar', clienteDisplayInput, clienteIdInput);
+            });
+            closeClienteModalBtn.addEventListener('click', () => closeModal(clientePanel));
+
+            openProyectoPanelBtn.addEventListener('click', () => {
+                activatePanel(proyectoPanel);
+                // Cargar TODOS los proyectos al abrir el modal (searchTerm vacío)
+                fetchAndRenderTable(proyectoSearchInput, proyectoResultsTableBody, '/api-rest/proyectos/buscar', proyectoDisplayInput, proyectoIdInput);
+            });
+            closeProyectoModalBtn.addEventListener('click', () => closeModal(proyectoPanel));
+
+
+            // Cerrar modal al hacer clic fuera del contenido (igual que antes)
+            window.addEventListener('click', function (event) {
+                if (event.target == empresaPanel) closeModal(empresaPanel);
+                if (event.target == clientePanel) closeModal(clientePanel);
+                if (event.target == proyectoPanel) closeModal(proyectoPanel);
+            });
+
+            // --- Función genérica para buscar y rellenar tabla (ligeramente ajustada) ---
+            async function fetchAndRenderTable(searchInput, resultsTableBody, apiUrl, displayInput, idInput) {
+                const searchTerm = searchInput.value; // Obtiene el valor actual del input de búsqueda
+                resultsTableBody.innerHTML = '<tr><td colspan="4">Cargando...</td></tr>'; // Mensaje de carga
+
+                try {
+                    // La URL ahora solo añade el parámetro 'nombre' si searchTerm NO está vacío.
+                    // Si searchTerm está vacío, la URL será simplemente '/api/empresas/buscar'
+                    // Esto requiere que tu backend maneje el caso de 'nombre' vacío.
+                    const url = searchTerm ? `${apiUrl}?nombre=${encodeURIComponent(searchTerm)}` : apiUrl;
+
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+
+                    resultsTableBody.innerHTML = '';
+
+                    if (data.length === 0) {
+                        resultsTableBody.innerHTML = '<tr><td colspan="4">No se encontraron resultados.</td></tr>';
+                        return;
+                    }
+
+                    data.forEach(item => {
+                        const row = resultsTableBody.insertRow();
+                        row.insertCell().textContent = item.id;
+                        row.insertCell().textContent = item.nombre;
+                        // Añade más celdas según las propiedades de tu entidad (ej. item.cif para empresa)
+                        if (apiUrl.includes('empresas')) {
+                            row.insertCell().textContent = item.cif || '';
+                        } else if (apiUrl.includes('clientes')) {
+                            row.insertCell().textContent = item.proyecto?.nombre || '';
+                        } else if (apiUrl.includes('proyectos')) {
+                            row.insertCell().textContent = item.tipo.valueOf().toLowerCase() || '';
+                        } else {
+                            row.insertCell().textContent = '';
+                        }
+
+                        const selectCell = row.insertCell();
+                        const selectButton = document.createElement('button');
+                        selectButton.textContent = 'Seleccionar';
+                        selectButton.classList.add('select-button');
+                        selectButton.addEventListener('click', () => {
+                            displayInput.value = item.nombre;
+                            idInput.value = item.id;
+                            closeModal(searchInput.closest('.modal'));
+                        });
+                        selectCell.appendChild(selectButton);
+                    });
+
+                } catch (error) {
+                    console.error('Error al buscar datos:', error);
+                    resultsTableBody.innerHTML = '<tr><td colspan="4">Error al cargar resultados.</td></tr>';
+                }
+            }
+
+            // --- Event Listeners para botones de búsqueda (para filtrar DESPUÉS de la carga inicial) ---
+            empresaSearchBtn.addEventListener('click', () => fetchAndRenderTable(empresaSearchInput, empresaResultsTableBody, '/api-rest/empresas/buscar', empresaDisplayInput, empresaIdInput));
+            clienteSearchBtn.addEventListener('click', () => fetchAndRenderTable(clienteSearchInput, clienteResultsTableBody, '/api-rest/clientes/buscar', clienteDisplayInput, clienteIdInput));
+            proyectoSearchBtn.addEventListener('click', () => fetchAndRenderTable(proyectoSearchInput, proyectoResultsTableBody, '/api-rest/proyectos/buscar', proyectoDisplayInput, proyectoIdInput));
+
+
+            // Opcional: Búsqueda al presionar Enter en el campo de búsqueda (igual que antes)
+            empresaSearchInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') empresaSearchBtn.click();
+            });
+            clienteSearchInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') clienteSearchBtn.click();
+            });
+            proyectoSearchInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') proyectoSearchBtn.click();
+            });
+            activatePanel(null);
+        });
+    </script>
+</body>
+</html>

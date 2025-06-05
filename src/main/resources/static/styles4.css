@@ -1,13 +1,12 @@
-/* Estilos generales */
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #F5F0E1;
-    color: #3D3D3D;
+    background-color: #F5F0E1; /* Beige claro */
+    color: #3D3D3D; /* Gris oscuro en lugar de negro puro */
     text-align: center;
 }
-/* Estilos del encabezado */
+/* Encabezado */
 header {
     background-color: #E8DCC3; /* Beige más cálido */
     color: #3D3D3D;
@@ -15,32 +14,32 @@ header {
     text-align: center;
 }
 
-/* Contenedor principal */
+/* Estilos para el contenedor del formulario (adaptado para flex) */
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
+    max-width: 90%; /* Aumentamos el ancho máximo para acomodar las dos columnas */
+    margin: 2rem auto; /* Centra el contenedor */
+    background-color: #FFF; /* Fondo blanco para destacar */
+    padding: 20px; /* Más padding para el contenedor principal */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    /* flex: 1; -> Esto ya no va aquí, lo maneja two-column-layout */
+    display: flex; /* Añadido para que el contenido dentro de .container también pueda ser flex */
+    flex-direction: column; /* Apila el título y el layout de columnas */
+    align-items: center; /* Centra horizontalmente el contenido */
 }
 
-/* Formulario centrado */
-.formulario {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 600px; /* Limita el ancho del formulario */
-    margin-top: 20px;
+/* Estilo para los títulos */
+h1 {
+    font-size: 24px;
+    color: #3D3D3D;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 /* Estilos para los grupos del formulario */
 .form-group {
-    margin-bottom: 20px;
-    width: 20%;
+    margin-bottom: 15px;
     text-align: left;
-    max-width: 100%;
 }
 
 /* Etiquetas de los campos */
@@ -48,14 +47,16 @@ header {
     font-weight: bold;
     color: #3D3D3D;
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
+
 }
 
 /* Estilos para los campos de entrada */
-.form-group input,
-.form-group textarea {
+.form-group input:not(.select-button), /* Excluye el botón de selección */
+.form-group textarea,
+.form-group select { /* Añadido select */
     box-sizing: border-box;
-    width: 100%; /* El campo de entrada ocupará el 100% del contenedor */
+    width: 100%;
     padding: 10px;
     border: 1px solid #D9C7A6;
     border-radius: 5px;
@@ -68,7 +69,8 @@ header {
 
 /* Efecto cuando un campo está enfocado */
 .form-group input:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.form-group select:focus {
     border-color: #A68A64;
     outline: none;
     background-color: #FFF;
@@ -81,35 +83,67 @@ header {
     background-color: #A68A64;
     color: white;
     font-size: 18px;
-    border: 5px;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s, transform 0.2s;
-    margin-top: 10px;  /* Separa el botón de la lista */
-    clear: both;
+    margin-top: 20px; /* Espacio superior */
 }
 
 .form_button:hover {
     background-color: #8C735A;
-    transform: scale(1.05);
+    transform: scale(1.03); /* Ligeramente menos escalado para consistencia */
 }
 
-/* Lista de clientes */
-.lista-clientes {
-    width: 20%; /* Ajusta el ancho de la lista */
-    border: 1px solid #ddd;
+/* Estilos para el botón de regreso */
+.button-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.button-container .button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #D9C7A6;
+    color: #3D3D3D;
+    text-decoration: none;
     border-radius: 5px;
-    background-color: #f9f9f9;
-    margin: 0 auto;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
-/* Estilos para las tablas */
+.button-container .button:hover {
+    background-color: #A68A64;
+    transform: scale(1.03); /* Ligeramente menos escalado para consistencia */
+}
+
+/* Contenedor general para los mensajes */
+.operation_message {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    color: antiquewhite;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Mensaje de éxito */
+.ok_message {
+    background-color: #28a745; /* Verde más integrado */
+}
+
+/* Mensaje de error */
+.error_message {
+    background-color: #dc3545; /* Rojo más integrado */
+}
+
+/* Estilos para las tablas (ya existentes, aplicarán a las tablas dentro de los paneles) */
 table {
-    width: 100%;
-    margin: 20px auto;
+    width: 100%; /* Ajuste al 100% para los paneles */
+    margin: 10px 0; /* Menos margen vertical dentro de los paneles */
     border-collapse: collapse;
     background-color: #FFF;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05); /* Sombra más sutil */
     border-radius: 5px;
     overflow: hidden;
 }
@@ -120,9 +154,10 @@ table thead {
 }
 
 table th, table td {
-    padding: 12px;
-    border: 1px solid #DDD;
+    padding: 10px; /* Un poco menos de padding */
+    border: 1px solid #E8DCC3; /* Borde más suave */
     text-align: left;
+    font-size: 0.9em; /* Fuente ligeramente más pequeña */
 }
 
 table tbody tr:nth-child(even) {
@@ -132,15 +167,152 @@ table tbody tr:nth-child(even) {
 table tbody tr:hover {
     background-color: #E8DCC3;
 }
-
-.button {
-    display: inline-block;
-    padding: 1em 1.5em;
-    background-color: #A68A64; /* Beige oscuro */
-    margin-top: 10px;
+nav {
+    background-color: #D9C7A6; /* Beige medio */
+    padding: 1em 0;
+}
+.buttonNav {
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    background-color: #A68A64;
     color: #FFF;
     text-decoration: none;
+}
+
+/* --- NUEVOS ESTILOS PARA EL LAYOUT DE DOS COLUMNAS --- */
+
+.two-column-layout {
+    display: flex;
+    gap: 20px; /* Espacio entre columnas */
+    flex-wrap: wrap; /* Permite que las columnas se envuelvan en pantallas pequeñas */
+    width: 100%; /* Ocupa todo el ancho del .container */
+    justify-content: center; /* Centra las columnas si no ocupan todo el espacio */
+    align-items: flex-start; /* Alinea las columnas arriba */
+}
+
+.form-column {
+    flex: 1; /* Ocupa el espacio disponible */
+    min-width: 300px; /* Ancho mínimo para la columna del formulario */
+    max-width: 45%; /* Limita el ancho para dejar espacio a la otra columna */
+    padding: 10px; /* Añadido padding para dar aire */
+    /* No necesita fondo ni sombra si ya el .container lo tiene */
+}
+
+.modal-panels-column {
+    flex: 1.5; /* Damos más espacio a los paneles para que las tablas se vean mejor */
+    min-width: 400px; /* Ancho mínimo para la columna de paneles */
+    display: flex;
+    flex-direction: column; /* Apila los paneles verticalmente */
+    gap: 20px; /* Espacio entre paneles */
+    padding: 10px; /* Añadido padding para dar aire */
+}
+
+/* Estilos para los paneles que reemplazan los modales */
+.modal-panel {
+    border: 1px solid #D9C7A6; /* Borde que coincide con el estilo */
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #FFF; /* Fondo blanco para los paneles */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08); /* Sombra sutil */
+    display: none; /* ¡Clave! Oculto hasta que se active */
+}
+
+.modal-panel h2 {
+    margin-top: 0;
+    font-size: 1.3em; /* Ligeramente más grande */
+    color: #3D3D3D;
+    text-align: center; /* Centramos el título del panel */
+    margin-bottom: 15px;
+}
+
+.modal-panel input[type="text"] {
+    width: calc(100% - 100px); /* Ajusta el ancho para dejar espacio al botón */
+    padding: 8px;
+    margin-right: 5px;
+    border: 1px solid #D9C7A6;
+    border-radius: 4px;
+    font-size: 0.9em;
+    background-color: #F5F0E1;
+    color: #3D3D3D;
+}
+
+.modal-panel button {
+    padding: 8px 15px;
+    background-color: #A68A64; /* Color de tus botones */
+    color: white;
+    border: none;
     border-radius: 5px;
-    font-weight: bold;
+    cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
+    font-weight: bold; /* Consistencia con tus botones */
+}
+
+.modal-panel button:hover {
+    background-color: #8C735A;
+    transform: scale(1.03);
+}
+
+/* Estilo para el botón seleccionar dentro de las tablas de los paneles */
+.modal-panel .select-button {
+    background-color: #A68A64; /* Mismo color que otros botones */
+    color: white;
+    padding: 6px 10px; /* Un poco más pequeño */
+    font-size: 0.8em;
+}
+.modal-panel .select-button:hover {
+    background-color: #8C735A;
+}
+
+/* Estilos para los campos de input con botón al lado */
+.input-with-button {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Espacio entre el input y el botón */
+}
+
+.input-with-button input[type="text"] {
+    flex-grow: 1; /* El input crece para ocupar el espacio disponible */
+    /* width: auto; No establecer un ancho fijo aquí, flex lo maneja */
+}
+
+.input-with-button button {
+    /* Los estilos de .form_button ya aplican, pero podemos ser más específicos */
+    flex-shrink: 0; /* El botón no se encoge */
+    padding: 8px 12px; /* Ajuste para el botón pequeño */
+    font-size: 0.9em;
+    background-color: #D9C7A6; /* Un color ligeramente diferente para distinguirlo del submit */
+    color: #3D3D3D; /* Texto oscuro para el botón de seleccionar */
+}
+
+.input-with-button button:hover {
+    background-color: #A68A64;
+    color: white;
+}
+.close-button{
+    cursor: pointer;
+}
+
+/* Media Queries para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .two-column-layout {
+        flex-direction: column; /* Apila las columnas verticalmente */
+        align-items: center; /* Centra las columnas apiladas */
+    }
+
+    .form-column,
+    .modal-panels-column {
+        max-width: 95%; /* Ocupa casi todo el ancho disponible */
+        min-width: unset; /* Elimina el ancho mínimo para mayor flexibilidad */
+        width: 100%; /* Asegura que ocupen el 100% en una sola columna */
+    }
+
+    .container {
+        max-width: 95%; /* Ajusta el ancho del contenedor en pantallas pequeñas */
+        padding: 10px;
+    }
+
 }
