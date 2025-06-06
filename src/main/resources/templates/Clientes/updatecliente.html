@@ -107,9 +107,6 @@
                     // Obtener el ID del proyecto de la fila (usando un atributo de datos)
                     const proyectoId = clickedRow.getAttribute('data-proyecto-id'); // Ojo: Th:data-proyecto-id se convierte a data-proyecto-id en el HTML final
 
-                    // Si estás seguro de que el ID es la primera celda (td), puedes hacerlo así:
-                    // const proyectoId = clickedRow.cells[0].textContent;
-
                     if (proyectoId) {
                         proyectoIdInput.value = proyectoId;
                         console.log('ID de proyecto seleccionado:', proyectoId);

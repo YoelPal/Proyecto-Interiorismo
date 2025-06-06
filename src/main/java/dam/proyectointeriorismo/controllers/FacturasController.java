@@ -1,16 +1,11 @@
 package dam.proyectointeriorismo.controllers;
 
-import dam.proyectointeriorismo.models.entities.EmpresaAsociadaEntity;
 import dam.proyectointeriorismo.models.entities.FacturaEntity;
-import dam.proyectointeriorismo.models.entities.ProyectoEntity;
 import dam.proyectointeriorismo.services.FacturaService;
-import org.apache.coyote.Response;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -47,46 +42,40 @@ public class FacturasController {
             if (newFactura.isPresent()) {
                 model.addAttribute("tipo_operacion", "ok");
                 model.addAttribute("mensaje", "Factura creada correctamente.");
-                model.addAttribute("factura", newFactura.get()); // Pasa la empresa actualizada al modelo
+                model.addAttribute("factura", newFactura.get());
             } else {
                 model.addAttribute("tipo_operacion", "error");
                 model.addAttribute("mensaje", "Error al crear la factura .");
-                model.addAttribute("factura", facturaEntity); // Mantiene los datos del formulario si hay un error
+                model.addAttribute("factura", facturaEntity);
             }
         }catch (Exception e) {
             // Captura cualquier otra excepción durante la actualización
             model.addAttribute("tipo_operacion", "error");
             model.addAttribute("mensaje", "Ocurrió un error inesperado al actualizar: " + e.getMessage());
-            model.addAttribute("factura", facturaEntity); // Mantiene los datos del formulario si hay un error
+            model.addAttribute("factura", facturaEntity);
         }
-
         return "Facturas/altafactura";
-
     }
 
     @PostMapping("/updateFactura")
     public String updateFactura(@ModelAttribute("factura") FacturaEntity factura, Model model) {
 
         try {
-            // Llama a tu servicio para guardar/actualizar la empresa
             Optional<FacturaEntity> facturaActualizada = facturaService.updateFactura(factura, factura.getId());
-
             if (facturaActualizada.isPresent()) {
                 model.addAttribute("tipo_operacion", "ok");
                 model.addAttribute("mensaje", "Factura actualizada correctamente.");
-                model.addAttribute("factura", facturaActualizada.get()); // Pasa la empresa actualizada al modelo
+                model.addAttribute("factura", facturaActualizada.get());
             } else {
                 model.addAttribute("tipo_operacion", "error");
                 model.addAttribute("mensaje", "Error al actualizar la factura (ID no encontrado o problema en servicio).");
-                model.addAttribute("factura", factura); // Mantiene los datos del formulario si hay un error
+                model.addAttribute("factura", factura);
             }
         } catch (Exception e) {
-            // Captura cualquier otra excepción durante la actualización
             model.addAttribute("tipo_operacion", "error");
             model.addAttribute("mensaje", "Ocurrió un error inesperado al actualizar: " + e.getMessage());
-            model.addAttribute("factura", factura); // Mantiene los datos del formulario si hay un error
+            model.addAttribute("factura", factura);
         }
-
-        return "Facturas/updatefactura"; // Vuelve a la misma página, mostrando los mensajes
+        return "Facturas/updatefactura";
     }
 }

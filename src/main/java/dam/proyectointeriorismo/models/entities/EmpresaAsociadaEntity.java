@@ -25,8 +25,6 @@ public class EmpresaAsociadaEntity  {
     @Column(name = "telefono2", length = 20)
     private String telefono2;
 
-
-
     @Column(name = "email")
     private String email;
 
@@ -35,7 +33,6 @@ public class EmpresaAsociadaEntity  {
 
     @Column(name = "tipo", length = 30)
     private String tipo;
-
 
     public String getEmail() {
         return email;

@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface IClienteEntityRepository extends JpaRepository<ClienteEntity,Integer>, JpaSpecificationExecutor<ClienteEntity> {
 
     @Query("select c from ClienteEntity c where c.proyecto.estado = ?1")
-    public List<ClienteEntity> findClientesByEstado(Estado estado);
+    List<ClienteEntity> findClientesByEstado(Estado estado);
 
     List<ClienteEntity> findByNombreContainingIgnoreCase(String nombre);
 

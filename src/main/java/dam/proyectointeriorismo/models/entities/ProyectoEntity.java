@@ -26,8 +26,6 @@ public class ProyectoEntity {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fechaInicio;
 
-
-
     @Column(name = "metros_cuadrados")
     private Double metrosCuadrados;
 
@@ -39,10 +37,8 @@ public class ProyectoEntity {
     @Enumerated(EnumType.STRING) // Esto es importante para que JPA lo guarde como String en la BBDD
     private Estado estado;
 
-
     @Column(name = "nombre")
     private String nombre;
-
 
     @OneToMany(mappedBy = "proyecto")
     @OnDelete(action = OnDeleteAction.SET_NULL)

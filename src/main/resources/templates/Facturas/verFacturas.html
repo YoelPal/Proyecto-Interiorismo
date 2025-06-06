@@ -80,7 +80,6 @@
         <tr th:each="factura : ${facturas}"
             class="fila-factura"
             style="cursor: pointer"
-            th:onclick="|window.location.href='@{/detalleFactura(id=${factura.id})}'|"
             th:data-cliente-nombre="${factura.cliente != null ? factura.cliente.nombre : 'N/A'}"
             th:data-estado-enum-name="${factura.estado != null ? factura.estado.name() : 'N/A'}"
             th:data-estado-nombre-visible="${factura.estado != null ? factura.estado.nombreVisible : 'N/A'}"

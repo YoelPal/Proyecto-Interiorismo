@@ -1,6 +1,5 @@
 package dam.proyectointeriorismo.controllers.RestController;
 
-import dam.proyectointeriorismo.models.entities.EmpresaAsociadaEntity;
 import dam.proyectointeriorismo.models.entities.ProyectoEntity;
 import dam.proyectointeriorismo.services.ProyectoService;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +25,10 @@ public class ProyectosRestController {
         List<ProyectoEntity> resultados;
 
         if (nombre != null && !nombre.trim().isEmpty()) {
-            // Si hay un término de búsqueda, filtramos
             resultados = proyectoService.findByNombreContainingIgnoreCase(nombre);
         } else {
-            // Si NO hay término de búsqueda, devolvemos TODOS
-            resultados = proyectoService.listaProyectos(); // ¡NUEVA LLAMADA AL SERVICIO!
+            resultados = proyectoService.listaProyectos();
         }
-
         if (resultados.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

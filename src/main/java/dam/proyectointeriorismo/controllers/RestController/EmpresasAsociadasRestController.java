@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @RestController
@@ -25,13 +24,10 @@ public class EmpresasAsociadasRestController {
         List<EmpresaAsociadaEntity> resultados;
 
         if (nombre != null && !nombre.trim().isEmpty()) {
-            // Si hay un término de búsqueda, filtramos
             resultados = empresaAsocidadaService.findByNombreContainingIgnoreCase(nombre);
         } else {
-            // Si NO hay término de búsqueda, devolvemos TODOS
-            resultados = empresaAsocidadaService.findAllEmpresaAsociada(); // ¡NUEVA LLAMADA AL SERVICIO!
+            resultados = empresaAsocidadaService.findAllEmpresaAsociada();
         }
-
         if (resultados.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

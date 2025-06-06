@@ -2,7 +2,6 @@ package dam.proyectointeriorismo.controllers;
 
 import dam.proyectointeriorismo.models.entities.EmpresaAsociadaEntity;
 import dam.proyectointeriorismo.services.EmpresaAsocidadaService;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,24 +19,6 @@ public class EmpresasAsociadasController {
         this.empresaAsocidadaService = empresaAsocidadaService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<EmpresaAsociadaEntity>> findAllEmpresasAsociadas(){
-        List<EmpresaAsociadaEntity> listaEmpresas = empresaAsocidadaService.findAllEmpresaAsociada();
-        if (listaEmpresas.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(listaEmpresas);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<EmpresaAsociadaEntity> findEmpresaById(@PathVariable(value = "id")int id){
-        Optional<EmpresaAsociadaEntity> empresaAsociadaEntityOptional = empresaAsocidadaService.findEmpresaById(id);
-        if (empresaAsociadaEntityOptional.isPresent()){
-            return ResponseEntity.ok(empresaAsociadaEntityOptional.get());
-        }
-        return ResponseEntity.notFound().build();
-    }
-
     @PostMapping
     public String saveEmpresaAsociada(@ModelAttribute EmpresaAsociadaEntity empresaAsociada, Model model){
         try {
@@ -52,7 +33,6 @@ public class EmpresasAsociadasController {
                 model.addAttribute("empresa", empresaAsociada); // Mantiene los datos del formulario si hay un error
             }
         }catch (Exception e) {
-            // Captura cualquier otra excepción durante la actualización
             model.addAttribute("tipo_operacion", "error");
             model.addAttribute("mensaje", "Ocurrió un error inesperado al actualizar: " + e.getMessage());
             model.addAttribute("empresa", empresaAsociada); // Mantiene los datos del formulario si hay un error
@@ -78,7 +58,6 @@ public class EmpresasAsociadasController {
     public String updateEmpresa(@ModelAttribute("empresa") EmpresaAsociadaEntity empresa, Model model) {
 
         try {
-            // Llama a tu servicio para guardar/actualizar la empresa
             Optional<EmpresaAsociadaEntity> empresaActualizada = empresaAsocidadaService.updateEmpresa(empresa);
 
             if (empresaActualizada.isPresent()) {
@@ -88,16 +67,15 @@ public class EmpresasAsociadasController {
             } else {
                 model.addAttribute("tipo_operacion", "error");
                 model.addAttribute("mensaje", "Error al actualizar la empresa (ID no encontrado o problema en servicio).");
-                model.addAttribute("empresa", empresa); // Mantiene los datos del formulario si hay un error
+                model.addAttribute("empresa", empresa);
             }
         } catch (Exception e) {
-            // Captura cualquier otra excepción durante la actualización
             model.addAttribute("tipo_operacion", "error");
             model.addAttribute("mensaje", "Ocurrió un error inesperado al actualizar: " + e.getMessage());
-            model.addAttribute("empresa", empresa); // Mantiene los datos del formulario si hay un error
+            model.addAttribute("empresa", empresa);
         }
 
-        return "Empresas/updateempresa"; // Vuelve a la misma página, mostrando los mensajes
+        return "Empresas/updateempresa";
     }
 
 }

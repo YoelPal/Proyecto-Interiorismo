@@ -35,7 +35,6 @@ public class ClienteEntity {
     @Column(name = "observaciones", length = 100)
     private String observaciones;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})

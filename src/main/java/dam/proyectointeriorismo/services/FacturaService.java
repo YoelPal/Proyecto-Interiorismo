@@ -1,7 +1,10 @@
 package dam.proyectointeriorismo.services;
 
+import dam.proyectointeriorismo.models.entities.ClienteEntity;
 import dam.proyectointeriorismo.models.repository.IFacturaEntityRepository;
 import dam.proyectointeriorismo.models.entities.FacturaEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,5 +49,11 @@ public class FacturaService {
             return Optional.of(facturaRepository.save(facturaEntity));
         }
         return Optional.empty();
+    }
+
+    public Page<FacturaEntity> findFacturasByCliente(ClienteEntity cliente, Pageable pageable){
+
+        return facturaRepository.findByCliente(cliente,pageable);
+
     }
 }

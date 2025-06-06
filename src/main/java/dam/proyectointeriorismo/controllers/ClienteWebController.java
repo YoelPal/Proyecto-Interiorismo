@@ -1,14 +1,19 @@
 package dam.proyectointeriorismo.controllers;
 
+import dam.proyectointeriorismo.models.Enums.Estado;
 import dam.proyectointeriorismo.models.entities.ClienteEntity;
+import dam.proyectointeriorismo.models.entities.FacturaEntity;
 import dam.proyectointeriorismo.models.entities.ProyectoEntity;
 import dam.proyectointeriorismo.services.ClienteService;
+import dam.proyectointeriorismo.services.FacturaService;
 import dam.proyectointeriorismo.services.ProyectoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -16,50 +21,34 @@ import java.util.Optional;
 public class ClienteWebController {
     private final ClienteService clienteService;
     private final ProyectoService proyectoService;
+    private final FacturaService facturaService;
 
-    public ClienteWebController(ClienteService clienteService, ProyectoService proyectoService) {
+    public ClienteWebController(ClienteService clienteService, ProyectoService proyectoService, FacturaService facturaService) {
         this.clienteService = clienteService;
         this.proyectoService = proyectoService;
+        this.facturaService = facturaService;
     }
-    @GetMapping("/menuclientes")
-    public String mostrarMenuClientes() {
-        return "menuclientes"; // Debe coincidir con el nombre del HTML en templates
+
+    @GetMapping("/verClientes")
+    public String mostrarClientes(Model model, @RequestParam(name = "estado",required = false)String estado) {
+
+        List<ClienteEntity> clientes ;
+        model.addAttribute("estados", Estado.values());
+        if (estado!=null && !estado.trim().isEmpty()){
+            Estado estadoEnum = Estado.valueOf(estado);
+            clientes = clienteService.findClienteByEstado(estadoEnum);
+        }else{
+            clientes =  clienteService.buscarClientes();
+
+        }
+        model.addAttribute("clientes",clientes);
+        return "Clientes/verClientes";
     }
 
     @GetMapping("/altacliente")
     public String altaCliente(Model model) {
-//Pasamos al modelo una DepartamentoEntity vacío
         model.addAttribute("cliente", new ClienteEntity());
         return "Clientes/altacliente";
-    }
-
-    @PostMapping("/altacliente")
-    public String saveCliente(@ModelAttribute ClienteEntity cliente,RedirectAttributes redirectAttributes){
-        try {
-
-            Optional<ClienteEntity> existingCliente = clienteService.findByDni(cliente.getDni());
-
-            if (existingCliente.isPresent()) {
-                // Si el DNI ya existe, no guardamos y mostramos un mensaje de error
-                redirectAttributes.addFlashAttribute("mensaje", "Error: Ya existe un cliente con el DNI " + cliente.getDni());
-                redirectAttributes.addFlashAttribute("tipo_operacion", "error");
-                // Redirige de vuelta al formulario de creación para que el usuario pueda corregir
-                return "redirect:/altacliente";
-            }
-
-            clienteService.saveCliente(cliente);
-            redirectAttributes.addFlashAttribute("mensaje", "Cliente creado exitosamente!");
-            redirectAttributes.addFlashAttribute("tipo_operacion", "ok");
-            // Redirige a la lista de clientes o a otra página de éxito
-            return "redirect:/verClientes";
-
-        } catch (Exception e) {
-            // Manejo genérico de otros errores (ej. problemas de base de datos)
-            redirectAttributes.addFlashAttribute("mensaje", "Error al crear el cliente: " + e.getMessage());
-            redirectAttributes.addFlashAttribute("tipo_operacion", "error");
-            // Redirige de vuelta al formulario de creación
-            return "redirect:/altacliente";
-        }
     }
 
 
@@ -78,47 +67,15 @@ public class ClienteWebController {
         }
     }
 
-    @GetMapping("/buscarclienteid")
-    public String mostrarFormularioBusqueda( Model model) {
-        List<ClienteEntity> clientes = clienteService.buscarClientes();
-        model.addAttribute("clientes",clientes);
-        return "buscarclienteid";  // Nombre del archivo HTML en templates
-    }
-
-    @PostMapping("/actualizarcliente")
-    public String actualizarCliente(@ModelAttribute ClienteEntity cliente, Model model) {
-        Optional<ClienteEntity> clienteUpdate = clienteService.updateCliente(cliente);
-        if (clienteUpdate.isPresent()) {
-            model.addAttribute("tipo_operacion", "ok");
-            model.addAttribute("mensaje", "Cliente actualizado correctamente.");
-
-            model.addAttribute("cliente",clienteUpdate.get());
-        } else {
-            model.addAttribute("tipo_operacion", "error");
-            model.addAttribute("mensaje", "Error al actualizar el cliente.");
-
-            model.addAttribute("cliente", cliente);
-        }
-
-        return "Clientes/updatecliente"; // Retorna la vista con el mensaje
-    }
-
-    @PostMapping("/deleteCliente")
-    public String deleteCliente(@RequestParam("id")int id, RedirectAttributes redirectAttributes){
-        Optional<ClienteEntity> deletedCliente = clienteService.deleteCliente(id);
-        if (deletedCliente.isPresent()) {
-            redirectAttributes.addFlashAttribute("successMessage", "Cliente eliminado correctamente.");
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error: No se encontró el cliente con ID " + id + " para eliminar.");
-        }
-        return "redirect:/verClientes";
-    }
-
     @GetMapping("/detalleCliente")
-    public String detalleCliente(@RequestParam("id")int id,Model model){
+    public String detalleCliente(@RequestParam("id")int id, Model model,
+                                 @PageableDefault(size = 5, sort = "fechaEmision", direction = Sort.Direction.DESC) Pageable pageable){
+
         Optional<ClienteEntity> clienteDetalle = clienteService.findClienteById(id);
         if (clienteDetalle.isPresent()){
+            Page<FacturaEntity> facturaEntityPage = facturaService.findFacturasByCliente(clienteDetalle.get(),pageable);
             model.addAttribute("cliente",clienteDetalle.get());
+            model.addAttribute("facturasPage",facturaEntityPage);
             return "Clientes/detallecliente";
         }else{
             model.addAttribute("tipo_operacion","error");
@@ -127,9 +84,6 @@ public class ClienteWebController {
         }
 
     }
-
-
-
 
 
 }

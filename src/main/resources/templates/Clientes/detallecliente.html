@@ -51,15 +51,72 @@
             </thead>
             <tbody>
             <tr>
-            <td th:text="${cliente.proyecto.id}"></td>
-            <td th:text="${cliente.proyecto.presupuesto}"></td>
-            <td th:text="${cliente.proyecto.nombre}"></td>
+                <td th:text="${cliente.proyecto.id}"></td>
+                <td th:text="${cliente.proyecto.presupuesto}"></td>
+                <td th:text="${cliente.proyecto.nombre}"></td>
                 <td th:text="${cliente.proyecto.tipo.getNombreVisible()}"></td>
-            <td th:text="${cliente.proyecto.fechaInicio}"></td>
+                <td th:text="${cliente.proyecto.fechaInicio}"></td>
             </tr>
             </tbody>
         </table>
 
+    </div>
+
+    <div th:if="${facturasPage != null}">
+        <h2>Facturas</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Empresa Asociada</th>
+                <th>Proyecto</th>
+                <th>Total</th>
+                <th>Fecha Emisión</th>
+                <th>Fecha Vencimiento</th>
+                <th>Estado</th>
+            </tr>
+            </thead>
+            <tbody id="tablaFacturas">
+            <tr th:each="factura : ${facturasPage}"
+                class="fila-factura"
+                style="cursor: pointer"
+                th:data-estado-enum-name="${factura.estado != null ? factura.estado.name() : 'N/A'}"
+                th:data-estado-nombre-visible="${factura.estado != null ? factura.estado.nombreVisible : 'N/A'}"
+                th:data-empresa-nombre="${factura.empresaAsociada != null ? factura.empresaAsociada.nombre : 'N/A'}"
+                th:data-proyecto-nombre="${factura.proyecto != null ?factura.proyecto.nombre : 'N/A'}"
+            >
+
+                <td th:text="${factura.id}"></td>
+                <td class="col-empresa"
+                    th:text="${factura.empresaAsociada != null ? factura.empresaAsociada.nombre : 'N/A'}"></td>
+                <td class="col-proyecto" th:text="${factura.proyecto != null ? factura.proyecto.nombre : 'N/A'}"></td>
+                <td th:text="${#numbers.formatCurrency(factura.total)}"></td>
+                <td th:text="${factura.fechaEmision}"></td>
+                <td th:text="${factura.fechaVencimiento}"></td>
+                <td class="col-estado" th:text="${factura.estado != null ? factura.estado.nombreVisible : 'N/A'}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+
+        <p>Página <span th:text="${facturasPage.number + 1}"></span> de <span
+                th:text="${facturasPage.totalPages != 0 ? facturasPage.totalPages : 1}"></span></p>
+        <p>Total de facturas: <span th:text="${facturasPage.totalElements}"></span></p>
+
+        <a th:if="${facturasPage.hasPrevious()}"
+           th:href="@{|/clientes/${cliente.id}(page=${facturasPage.number - 1}, size=${facturasPage.size}, sort=${facturasPage.sort.toString().replace(': ', ',')})|}"
+           class="pagination-link">Anterior</a>
+
+        <span th:each="i : ${#numbers.sequence(0, (facturasPage.totalPages > 0 ? facturasPage.totalPages - 1 : 0))}">
+            <a th:if="${i != facturasPage.number}"
+               th:href="@{|/clientes/${cliente.id}(page=${i}, size=${facturasPage.size}, sort=${facturasPage.sort.toString().replace(': ', ',')})|}"
+               th:text="${i + 1}" class="pagination-link"></a>
+            <span th:if="${i == facturasPage.number}" th:text="${i + 1}" class="pagination-link current-page"></span>
+        </span>
+
+        <a th:if="${facturasPage.hasNext()}"
+           th:href="@{|/clientes/${cliente.id}(page=${facturasPage.number + 1}, size=${facturasPage.size}, sort=${facturasPage.sort.toString().replace(': ', ',')})|}"
+           class="pagination-link">Siguiente</a>
     </div>
 
 

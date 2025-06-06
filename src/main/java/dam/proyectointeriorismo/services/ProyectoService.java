@@ -13,7 +13,6 @@ public class ProyectoService  {
 
     private final IProyectoEntityRepository proyectoEntityRepository;
 
-
     public ProyectoService(IProyectoEntityRepository proyectoEntityDAO) {
         this.proyectoEntityRepository = proyectoEntityDAO;
     }

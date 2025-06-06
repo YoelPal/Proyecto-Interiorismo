@@ -67,10 +67,6 @@ public class ClienteService implements IService {
         return clienteEntityRepository.findClientesByEstado(estado);
     }
 
-    public List<ClienteEntity> buscarConFiltros (String nombre, String dni){
-        return clienteEntityRepository.findAll(ClienteSpecification.filtro(nombre,dni));
-    }
-
     public Optional<ClienteEntity> findByDni(String dni){
         Optional<ClienteEntity> optionalCliente = clienteEntityRepository.findByDni(dni);
         if (optionalCliente.isPresent()){

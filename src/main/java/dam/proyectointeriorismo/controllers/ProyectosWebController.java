@@ -18,7 +18,6 @@ import java.util.Optional;
 @Controller
 public class ProyectosWebController {
 
-
     private final ClienteService clienteService;
     private final ProyectoService proyectoService;
 
@@ -40,7 +39,6 @@ public class ProyectosWebController {
     public String altaProyecto(Model model) {
         List<ClienteEntity> clientes = clienteService.buscarClientes();
         model.addAttribute("clientes",clientes);
-//Pasamos al modelo una DepartamentoEntity vacío
         model.addAttribute("proyecto", new ProyectoEntity());
         model.addAttribute("estadosProyecto", Estado.values());
         model.addAttribute("tipoProyecto", Tipo.values());
@@ -56,13 +54,10 @@ public class ProyectosWebController {
         if (optionalProyecto.isPresent()){
             ProyectoEntity proyecto = optionalProyecto.get();
             model.addAttribute("proyecto", proyecto);
-
         }else {
-
             model.addAttribute("tipo_operacion", "error");
             model.addAttribute("mensaje", "Proyecto no encontrado.");
             model.addAttribute("proyecto", new ProyectoEntity());
-
         }
         model.addAttribute("estadosProyecto", Estado.values());
         model.addAttribute("tipoProyecto",Tipo.values());
