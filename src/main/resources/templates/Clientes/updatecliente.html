@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Actualizar Cliente</title>
+    <link rel="icon" type="image/png" th:href="@{/img/logo.png}">
     <link rel="stylesheet" th:href="@{/styles3.css}" />
 </head>
 <body>
@@ -97,7 +98,7 @@
         const proyectoIdInput = document.getElementById('proyectoIdInput'); // Referencia al input del formulario
 
         if (proyectosTable && proyectoIdInput) {
-            // Añadir un event listener a toda la tabla y usar delegación de eventos
+            // Se añade un event listener a toda la tabla y se usa delegación de eventos
             proyectosTable.addEventListener('click', function(event) {
                 // Encontrar la fila (<tr>) que fue clickeada
                 let clickedRow = event.target.closest('tr');

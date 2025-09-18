@@ -2,14 +2,19 @@ package dam.proyectointeriorismo.models.entities;
 
 import dam.proyectointeriorismo.models.Enums.EstadoFactura;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "facturas")
 public class FacturaEntity {
     @Id
@@ -47,68 +52,12 @@ public class FacturaEntity {
     @Enumerated(EnumType.STRING)
     private EstadoFactura estado;
 
-    public Integer getId() {
-        return id;
-    }
+    @OneToMany(
+            mappedBy = "factura",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<ItemFacturaEntity> items;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public ClienteEntity getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(ClienteEntity cliente) {
-        this.cliente = cliente;
-    }
-
-    public EmpresaAsociadaEntity getEmpresaAsociada() {
-        return empresaAsociada;
-    }
-
-    public void setEmpresaAsociada(EmpresaAsociadaEntity empresaAsociada) {
-        this.empresaAsociada = empresaAsociada;
-    }
-
-    public ProyectoEntity getProyecto() {
-        return proyecto;
-    }
-
-    public void setProyecto(ProyectoEntity proyecto) {
-        this.proyecto = proyecto;
-    }
-
-    public BigDecimal getTotal() {
-        return total;
-    }
-
-    public void setTotal(BigDecimal total) {
-        this.total = total;
-    }
-
-    public LocalDate getFechaEmision() {
-        return fechaEmision;
-    }
-
-    public void setFechaEmision(LocalDate fechaEmision) {
-        this.fechaEmision = fechaEmision;
-    }
-
-    public LocalDate getFechaVencimiento() {
-        return fechaVencimiento;
-    }
-
-    public void setFechaVencimiento(LocalDate fechaVencimiento) {
-        this.fechaVencimiento = fechaVencimiento;
-    }
-
-    public EstadoFactura getEstado() {
-        return estado;
-    }
-
-    public void setEstado(EstadoFactura estado) {
-        this.estado = estado;
-    }
 
 }

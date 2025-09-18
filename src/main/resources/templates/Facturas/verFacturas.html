@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Visualizar Facturas</title>
+    <link rel="icon" type="image/png" th:href="@{/img/logo.png}">
     <link rel="stylesheet" th:href="@{/ClienteStyle.css}" />
 </head>
 <body>
@@ -154,10 +155,9 @@
 
             let coincideProyecto = proyectoFila.includes(valorProyecto);
             let coincideEstado = false;
-            if (valorEstadoEnumName === '') { // Si el filtro es "Todos los estados"
+            if (valorEstadoEnumName === '') {
                 coincideEstado = true;
             } else {
-                // Comparamos el nombre del ENUM de la fila con el nombre del ENUM seleccionado en el filtro
                 coincideEstado = estadoEnumNameFila === valorEstadoEnumName;
             }
             fila.style.display = (coincideNombre && coincideEstado && coincideEmpresa && coincideProyecto) ? '' : 'none';

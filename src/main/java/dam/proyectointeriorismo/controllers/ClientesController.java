@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/clientes")
 public class ClientesController {
     private final ClienteService clienteService;
 
@@ -23,7 +22,7 @@ public class ClientesController {
         this.clienteService = clienteService;
     }
 
-    @GetMapping
+    @GetMapping("/listaClientes")
     public List<ClienteEntity> findAllClientes(){
         return clienteService.buscarClientes();
     }

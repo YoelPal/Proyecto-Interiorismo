@@ -78,4 +78,16 @@ public class FacturasController {
         }
         return "Facturas/updatefactura";
     }
+
+    @GetMapping("/verFactura/{id}")
+    public String verDetalleFactura(@PathVariable Integer id, Model model){
+        Optional <FacturaEntity> facturaOptional  = facturaService.findFacturaById(id);
+
+        if (facturaOptional.isPresent()){
+            model.addAttribute("factura",facturaOptional.get());
+            return "Facturas/plantillaFactura";
+        }else{
+            return "redirect:/verFacturas";
+        }
+    }
 }

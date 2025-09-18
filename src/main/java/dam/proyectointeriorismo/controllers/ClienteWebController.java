@@ -45,7 +45,7 @@ public class ClienteWebController {
         return "Clientes/verClientes";
     }
 
-    @GetMapping("/altacliente")
+    @GetMapping("/altaCliente")
     public String altaCliente(Model model) {
         model.addAttribute("cliente", new ClienteEntity());
         return "Clientes/altacliente";

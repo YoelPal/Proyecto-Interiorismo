@@ -16,7 +16,7 @@ public class EmpresaAsociadaEntity  {
     @Column(name = "razon_social", length = 50)
     private String razonSocial;
 
-    @Column(name = "direccion", length = 30)
+    @Column(name = "direccion", length = 150)
     private String direccion;
 
     @Column(name = "telefono1", length = 20)

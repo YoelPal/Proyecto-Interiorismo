@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Factura de Cliente</title>
+    <link rel="stylesheet" th:href="@{/styleFactura.css}"/>
+</head>
+<body>
+<h1>Factura</h1>
+
+<p><strong>Número de Factura:</strong> <span th:text="${factura.id}"></span></p>
+<p><strong>Fecha emisión:</strong> <span th:text="${factura.fechaEmision}"></span></p>
+
+<h2>Datos del Cliente</h2>
+<p><strong>Nombre:</strong> <span th:text="${factura.cliente.nombre}"></span></p>
+<p><strong>Dirección:</strong> <span th:text="${factura.cliente.domicilio}"></span></p>
+
+<h2>Detalle de Productos</h2>
+<table >
+    <thead>
+    <tr>
+        <th>Descripción</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${factura.items}">
+        <td th:text="${item.descripcion}"></td>
+        <td th:text="${item.cantidad}"></td>
+        <td th:text="${item.precio}"></td>
+        <td th:text="${item.cantidad * item.precio}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<h3>Total a Pagar: <span th:text="${factura.total}"></span></h3>
+
+</body>
+</html>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Visualizar Clientes</title>
+    <link rel="icon" type="image/png" th:href="@{/img/logo.png}">
     <link rel="stylesheet" th:href="@{/ClienteStyle.css}" />
 </head>
 <body>
@@ -26,7 +27,7 @@
     <!-- Filtros dinámicos por nombre y DNI -->
     <div class="filtro-container">
         <div class="filtro-boton">
-            <a class="button" th:href="@{/altacliente}" >Crear nuevo Cliente</a>
+            <a class="button" th:href="@{/altaCliente}" >Crear nuevo Cliente</a>
         </div>
 
         <div class="form-group">
@@ -124,8 +125,6 @@
             }else{
                 coincideEstado = estado === valorEstado;
             }
-
-
             fila.style.display = (coincideNombre && coincideEstado) ? '' : 'none';
         });
     }

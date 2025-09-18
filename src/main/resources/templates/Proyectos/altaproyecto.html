@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Crear nuevo Proyeto</title>
+    <link rel="icon" type="image/png" th:href="@{/img/logo.png}">
     <link rel="stylesheet" th:href="@{/styles3.css}"/>
 </head>
 <body>
@@ -95,7 +96,7 @@
         const selectedClientIds = new Set();
 
         function updateHiddenInputs() {
-            selectedClientsHiddenInputs.innerHTML = ''; // Limpiar inputs anteriores
+            selectedClientsHiddenInputs.innerHTML = '';
 
             selectedClientIds.forEach(id => {
                 const input = document.createElement('input');
@@ -108,29 +109,19 @@
         }
 
         if (clientesTable && selectedClientsHiddenInputs) {
-            // Añadir un event listener a toda la tabla y usar delegación de eventos
             clientesTable.addEventListener('click', function (event) {
-                // Encontrar la fila (<tr>) que fue clickeada
                 let clickedRow = event.target.closest('tr');
 
-                // Asegurarse de que se hizo clic en una fila válida y que no sea la fila del encabezado
                 if (clickedRow && clickedRow.parentNode.tagName === 'TBODY') {
-                    // Obtener el ID del proyecto de la fila (usando un atributo de datos)
                     const clienteId = clickedRow.getAttribute('data-cliente-id'); // Ojo: Th:data-proyecto-id se convierte a data-proyecto-id en el HTML final
-
-                    // Si estás seguro de que el ID es la primera celda (td), puedes hacerlo así:
-                    // const proyectoId = clickedRow.cells[0].textContent;
 
                     if (clienteId) {
                         clickedRow.classList.toggle('selected');
                         if (clickedRow.classList.contains('selected')) {
-                            // Si la fila está seleccionada, añade el ID al Set
                             selectedClientIds.add(clienteId);
                         } else {
-                            // Si la fila fue deseleccionada, quita el ID del Set
                             selectedClientIds.delete(clienteId);
                         }
-                        // Actualiza los inputs ocultos para que se envíen con el formulario
                         updateHiddenInputs();
                     }
                 }

@@ -3,10 +3,15 @@ package dam.proyectointeriorismo.models.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "clientes")
 public class ClienteEntity {
     @Id
@@ -23,7 +28,7 @@ public class ClienteEntity {
     @Column(name = "edad")
     private Byte edad;
 
-    @Column(name = "domicilio", length = 40)
+    @Column(name = "domicilio", length = 150)
     private String domicilio;
 
     @Column(name = "telefono", length = 30)
@@ -41,76 +46,5 @@ public class ClienteEntity {
     @JoinColumn(name = "id_proyecto", referencedColumnName = "id")
     private ProyectoEntity proyecto;
 
-    public ProyectoEntity getProyecto() {
-        return proyecto;
-    }
-
-    public void setProyecto(ProyectoEntity proyecto) {
-        this.proyecto = proyecto;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-
-    public Byte getEdad() {
-        return edad;
-    }
-
-    public void setEdad(Byte edad) {
-        this.edad = edad;
-    }
-
-    public String getDomicilio() {
-        return domicilio;
-    }
-
-    public void setDomicilio(String domicilio) {
-        this.domicilio = domicilio;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 
 }

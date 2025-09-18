@@ -74,4 +74,10 @@ public class FacturasWebController {
         }
         return "Facturas/updatefactura";
     }
+
+    @GetMapping("/generarFactura")
+    public String generarFactura(){
+        return "Facturas/plantillaFactura";
+    }
+
 }
