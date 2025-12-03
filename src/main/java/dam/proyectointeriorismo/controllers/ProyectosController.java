@@ -1,6 +1,5 @@
 package dam.proyectointeriorismo.controllers;
 
-import dam.proyectointeriorismo.models.entities.ClienteEntity;
 import dam.proyectointeriorismo.models.entities.ProyectoEntity;
 import dam.proyectointeriorismo.services.ProyectoService;
 
