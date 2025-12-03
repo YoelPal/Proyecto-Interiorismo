@@ -5,11 +5,11 @@ import dam.proyectointeriorismo.models.repository.IClienteEntityRepository;
 import dam.proyectointeriorismo.models.repository.IProyectoEntityRepository;
 import dam.proyectointeriorismo.models.entities.ClienteEntity;
 
-import dam.proyectointeriorismo.models.repository.specifications.ClienteSpecification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class ClienteService implements IService {

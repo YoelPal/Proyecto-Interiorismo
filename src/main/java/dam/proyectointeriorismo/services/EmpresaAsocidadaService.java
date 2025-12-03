@@ -2,6 +2,8 @@ package dam.proyectointeriorismo.services;
 
 import dam.proyectointeriorismo.models.repository.IEmpresaAsociadaEntityRepository;
 import dam.proyectointeriorismo.models.entities.EmpresaAsociadaEntity;
+
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +29,7 @@ public class EmpresaAsocidadaService {
         return empresaAsociadaEntityRepository.findById(id);
     }
 
-    public Optional<EmpresaAsociadaEntity> saveEmpresa(EmpresaAsociadaEntity empresaAsociada){
+    public Optional<EmpresaAsociadaEntity> saveEmpresa(@NonNull EmpresaAsociadaEntity empresaAsociada){
         return Optional.of(empresaAsociadaEntityRepository.save(empresaAsociada));
     }
 
@@ -41,7 +43,7 @@ public class EmpresaAsocidadaService {
 
     }
 
-    public Optional<EmpresaAsociadaEntity> updateEmpresa(EmpresaAsociadaEntity empresaAsociada){
+    public Optional<EmpresaAsociadaEntity> updateEmpresa(@NonNull EmpresaAsociadaEntity empresaAsociada){
         Optional<EmpresaAsociadaEntity> empresaOpt = empresaAsociadaEntityRepository.findById(empresaAsociada.getId());
         if (empresaOpt.isPresent()){
             empresaAsociada.setId(empresaAsociada.getId());

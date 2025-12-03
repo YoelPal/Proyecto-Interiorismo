@@ -1,6 +1,5 @@
 package dam.proyectointeriorismo.services;
 
-import dam.proyectointeriorismo.models.entities.EmpresaAsociadaEntity;
 import dam.proyectointeriorismo.models.repository.IProyectoEntityRepository;
 import dam.proyectointeriorismo.models.entities.ProyectoEntity;
 import org.springframework.stereotype.Service;

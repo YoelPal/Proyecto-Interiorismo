@@ -20,6 +20,8 @@ public class ProyectosRestController {
         this.proyectoService = proyectoService;
     }
 
+    
+
     @GetMapping("/buscar")
     public ResponseEntity<List<ProyectoEntity>> buscarProyectos(@RequestParam(required = false) String nombre) {
         List<ProyectoEntity> resultados;

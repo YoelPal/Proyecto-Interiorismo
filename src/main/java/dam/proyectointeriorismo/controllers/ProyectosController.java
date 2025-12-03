@@ -1,7 +1,10 @@
 package dam.proyectointeriorismo.controllers;
 
+import dam.proyectointeriorismo.models.entities.ClienteEntity;
 import dam.proyectointeriorismo.models.entities.ProyectoEntity;
 import dam.proyectointeriorismo.services.ProyectoService;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +20,13 @@ public class ProyectosController {
         this.proyectoService = proyectoService;
     }
 
-    @GetMapping("/verproyectos")
-    public List<ProyectoEntity> findAllProyectos(){
-        return proyectoService.listaProyectos();
+
+    @GetMapping("/listaProyectos")
+    public ResponseEntity<List<ProyectoEntity>> findAllProyectos(){
+
+        return ResponseEntity.ok(proyectoService.listaProyectos()) ;
     }
+    
 
     @PostMapping("/deleteproyecto")
     public String deleteProyecto(@RequestParam("id")int id, RedirectAttributes redirectAttributes){

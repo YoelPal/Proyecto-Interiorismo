@@ -1,10 +1,7 @@
 package dam.proyectointeriorismo.controllers;
 
-import dam.proyectointeriorismo.models.repository.IClienteEntityRepository;
-import dam.proyectointeriorismo.models.repository.IProyectoEntityRepository;
 import dam.proyectointeriorismo.models.entities.ClienteEntity;
 import dam.proyectointeriorismo.services.ClienteService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +17,6 @@ public class ClientesController {
 
     public ClientesController(ClienteService clienteService) {
         this.clienteService = clienteService;
-    }
-
-    @GetMapping("/listaClientes")
-    public List<ClienteEntity> findAllClientes(){
-        return clienteService.buscarClientes();
     }
 
 

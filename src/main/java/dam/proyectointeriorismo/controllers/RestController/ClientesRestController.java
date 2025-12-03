@@ -34,4 +34,10 @@ public class ClientesRestController {
         }
         return ResponseEntity.ok(resultados);
     }
+
+     @GetMapping("/listaClientes")
+    public ResponseEntity<List<ClienteEntity>> findAllClientes(){
+
+        return ResponseEntity.ok(clienteService.buscarClientes()) ;
+    }
 }

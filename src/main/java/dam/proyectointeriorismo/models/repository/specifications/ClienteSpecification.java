@@ -3,8 +3,6 @@ package dam.proyectointeriorismo.models.repository.specifications;
 import dam.proyectointeriorismo.models.entities.ClienteEntity;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.Locale;
-
 public class ClienteSpecification {
 
     public static Specification<ClienteEntity> contieneNombre(String nombre){
