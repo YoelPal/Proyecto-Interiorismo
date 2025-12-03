@@ -5,8 +5,7 @@ Aplicación web para gestionar clientes, proyectos y facturación de una empresa
 
 Esta app está desarrollada con Java y Spring Boot, usa Thymeleaf para las vistas y JPA/Hibernate para persistencia.
 
-## Objetivo (para reclutadores)
-Propuesta profesional lista para demostraciones técnicas: explica las decisiones arquitectónicas, muestra pruebas automatizadas y cómo desplegarla localmente. Ideal para evaluar habilidades en backend Java, JPA, diseño de bases de datos relacionales y desarrollo full-stack con plantillas del lado servidor.
+
 
 ## Características principales
 - Gestión de clientes (CRUD).
